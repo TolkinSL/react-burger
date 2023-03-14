@@ -1,0 +1,29 @@
+body {
+  margin: 0 auto;
+  max-width: 1920px;
+  background-color: #131316;
+  font-family: 'JetBrains Mono', -apple-system, monospace, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: url("./fonts/JetBrainsMono-Regular.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  src: url("./fonts/JetBrainsMono-Bold.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  src: url("./fonts/Iceland-Regular.ttf") format('truetype');
+}
