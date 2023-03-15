@@ -3,6 +3,24 @@
 }
 
 .ingredients {
+    width: 600px;
+    height: 756px;
+    overflow-y: scroll;
+}
+
+.ingredients::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ingredients::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+
+.ingredients::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+
+.ingredient {
     margin: 0;
     display: flex;
     flex-wrap: wrap;

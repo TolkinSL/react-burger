@@ -6,7 +6,6 @@ import Main from "../main/main";
 function App() {
   return (
     <>
-      <h1>My test</h1>
       <AppHeader />
       <Main />
     </>
