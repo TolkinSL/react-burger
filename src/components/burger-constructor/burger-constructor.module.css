@@ -1,0 +1,43 @@
+.constructorSection {
+    width: 600px;
+    height: 912px;
+}
+
+.diamond {
+    width: 36px;
+    height: 36px;
+    vertical-align: bottom;
+}
+
+.price {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    column-gap: 40px;
+}
+
+.ingredients {
+    padding: 0;
+    width: 584px;
+    height: 464px;
+    overflow-y: scroll;
+    list-style: none;
+}
+
+.ingredients::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ingredients::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+
+.ingredients::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+
+.ingredient {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+}
