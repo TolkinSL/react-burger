@@ -4,7 +4,7 @@ import data from '../../utils/data';
 import styles from './burger-constructor.module.css';
 import diamond from '../../images/diamond.svg';
 import Modal from '../modal/modal';
-import OrderDetails from '../../order-details/order-details';
+import OrderDetails from '../order-details/order-details';
 
 export default function BurgerConstructor() {
   const bunLocked = data.filter((item) => item.name === 'Краторная булка N-200i');

@@ -22,12 +22,14 @@ export default function Modal({children, closeModal}) {
   }, []);
 
   return createPortal(
-      <ModalOverlay closeModal={closeModal}>
-        <div className={styles.modal} onClick={(evt) => evt.stopPropagation()}>
+      <>
+        {/*<div className={styles.modal} onClick={(evt) => evt.stopPropagation()}>*/}
+        <div className={styles.modal}>
           <button className={styles.button} type="button" onClick={closeModal}><CloseIcon type="primary"/></button>
           {children}
         </div>
-      </ModalOverlay>,
+        <ModalOverlay closeModal={closeModal}/>
+      </>,
       modalRoot
   );
 }

@@ -2,9 +2,9 @@ import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-com
 import styles from './ingredient.module.css';
 import PropTypes from 'prop-types';
 
-export default function Ingredient({image, price, name}) {
+export default function Ingredient({image, price, name, openModal}) {
   return (
-      <li className={`${styles.element} mb-8`}>
+      <li className={`${styles.element} mb-8`} onClick={openModal}>
         <img className="mb-1" src={image} alt={name}/>
         <div className={styles.price}>
           <p className="text text_type_digits-default mb-1">{price}</p>
@@ -19,4 +19,5 @@ Ingredient.propTypes = {
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
+  openModal: PropTypes.func.isRequired,
 };

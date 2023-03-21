@@ -1,5 +1,5 @@
 import styles from "./order-details.module.css";
-import complete from '../images/complete.png';
+import complete from '../../images/complete.png';
 
 export default function OrderDetails() {
   return (
