@@ -7,16 +7,17 @@ export default function AppHeader() {
         <nav className={styles.menu}>
           <ul className={styles.menuItem}>
             <li>
-              <button className={`${styles.button} pt-4 pr-5 pb-4 pl-5`}>
+
+              <a href="#" className={`${styles.button} pt-4 pr-5 pb-4 pl-5`}>
                 <BurgerIcon type='primary'/>
                 <p className="text text_type_main-default">Конструктор</p>
-              </button>
+              </a>
             </li>
             <li>
-              <button className={`${styles.button} pt-4 pr-5 pb-4 pl-5`}>
+              <a href="#" className={`${styles.button} pt-4 pr-5 pb-4 pl-5`}>
                 <ListIcon type='secondary'/>
                 <p className="text text_type_main-default text_color_inactive">Лента заказов</p>
-              </button>
+              </a>
             </li>
           </ul>
           <div className={styles.logo}>
@@ -24,10 +25,10 @@ export default function AppHeader() {
           </div>
           <ul className={styles.menuItem}>
             <li>
-              <button className={`${styles.button} pt-4 pr-5 pb-4 pl-5`}>
+              <a href="#" className={`${styles.button} pt-4 pr-5 pb-4 pl-5`}>
                 <ProfileIcon type='secondary'/>
                 <p className="text text_type_main-default text_color_inactive">Личный кабинет</p>
-              </button>
+              </a>
             </li>
           </ul>
         </nav>

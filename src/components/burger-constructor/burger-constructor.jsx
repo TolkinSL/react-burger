@@ -1,13 +1,17 @@
 import React from 'react';
 import {ConstructorElement, Button, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import data from '../../utils/data';
 import styles from './burger-constructor.module.css';
 import diamond from '../../images/diamond.svg';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
+import PropTypes from 'prop-types';
+import {itemsType} from '../../utils/types';
 
-export default function BurgerConstructor() {
-  const bunLocked = data.filter((item) => item.name === 'Краторная булка N-200i');
+
+export default function BurgerConstructor({ingredients}) {
+  const [bunLocked] = ingredients.filter((item) => item.name === 'Краторная булка N-200i');
+  // console.log(bunLocked);
+  // console.log(ingredients);
 
   const [isModalOrder, setModalOrder] = React.useState(false);
 
@@ -25,13 +29,13 @@ export default function BurgerConstructor() {
           <ConstructorElement
               type="top"
               isLocked={true}
-              text={bunLocked[0].name + ' (верх)'}
-              price={bunLocked[0].price}
-              thumbnail={bunLocked[0].image}
+              text={bunLocked ? bunLocked.name + ' (верх)' : ''}
+              price={bunLocked ? bunLocked.price : ''}
+              thumbnail={bunLocked ? bunLocked.image : ''}
           />
         </div>
         <ul className={styles.ingredients}>
-          {data.map(item => {
+          {ingredients.map(item => {
             if (item.type !== 'bun') {
               return (
                   <li className={`${styles.ingredient} mb-4`} key={item._id}>
@@ -49,9 +53,9 @@ export default function BurgerConstructor() {
           <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={bunLocked[0].name + ' (низ)'}
-              price={bunLocked[0].price}
-              thumbnail={bunLocked[0].image}
+              text={bunLocked ? bunLocked.name + ' (верх)' : ''}
+              price={bunLocked ? bunLocked.price : ''}
+              thumbnail={bunLocked ? bunLocked.image : ''}
           />
         </div>
         <div className={`${styles.price} mt-10 mr-4`}>
@@ -67,4 +71,8 @@ export default function BurgerConstructor() {
         )}
       </section>
   );
+}
+
+BurgerConstructor.propTypes = {
+  ingredients: PropTypes.arrayOf(itemsType.isRequired).isRequired,
 }

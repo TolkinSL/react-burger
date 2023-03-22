@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 export default function Ingredient({image, price, name, openModal}) {
   return (
       <li className={`${styles.element} mb-8`} onClick={openModal}>
+        <Counter count={1} size="default" extraClass="m-1" />
         <img className="mb-1" src={image} alt={name}/>
         <div className={styles.price}>
           <p className="text text_type_digits-default mb-1">{price}</p>

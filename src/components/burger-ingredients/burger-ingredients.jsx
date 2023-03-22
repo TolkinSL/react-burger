@@ -2,11 +2,13 @@ import React from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import Ingredient from "../ingredient/ingredient";
 import styles from './burger-ingredients.module.css';
-import data from '../../utils/data';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import PropTypes from 'prop-types';
+import BurgerConstructor from "../burger-constructor/burger-constructor";
+import {itemsType} from "../../utils/types";
 
-export default function BurgerIngredients() {
+export default function BurgerIngredients({ingredients}) {
   const [current, setCurrent] = React.useState('bun');
   const [currentItem, setCurrentItem] = React.useState({});
   const [isModalIngredients, setModalIngredients] = React.useState(false);
@@ -14,7 +16,6 @@ export default function BurgerIngredients() {
   const openModal = (item) => {
     setModalIngredients(true);
     setCurrentItem(item);
-    console.log(item);
   };
 
   const handleClose = () => {
@@ -39,7 +40,7 @@ export default function BurgerIngredients() {
           <div className="mt-2">
             <h2 className="text text_type_main-medium">Булки</h2>
             <ul className={`${styles.ingredient} pt-6 pl-4`}>
-              {data.map((item) => {
+              {ingredients.map((item) => {
                 if (item.type === 'bun') {
                   return <Ingredient {...item} key={item._id} openModal={() => openModal(item)}/>
                 }
@@ -49,7 +50,7 @@ export default function BurgerIngredients() {
           <div className="mt-2">
             <h2 className="text text_type_main-medium">Соусы</h2>
             <ul className={`${styles.ingredient} pt-6 pl-4`}>
-              {data.map((item) => {
+              {ingredients.map((item) => {
                 if (item.type === 'sauce') {
                   return <Ingredient {...item} key={item._id} openModal={() => openModal(item)}/>
                 }
@@ -59,7 +60,7 @@ export default function BurgerIngredients() {
           <div className="mt-2">
             <h2 className="text text_type_main-medium">Начинки</h2>
             <ul className={`${styles.ingredient} pt-6 pl-4`}>
-              {data.map((item) => {
+              {ingredients.map((item) => {
                 if (item.type === 'main') {
                   return <Ingredient {...item} key={item._id} openModal={() => openModal(item)}/>
                 }
@@ -75,4 +76,8 @@ export default function BurgerIngredients() {
         )}
       </section>
   );
+}
+
+BurgerConstructor.propTypes = {
+  ingredients: PropTypes.arrayOf(itemsType.isRequired).isRequired,
 }
