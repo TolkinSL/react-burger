@@ -1,6 +1,5 @@
 import styles from './modal-overlay.module.css';
 import PropTypes from 'prop-types';
-import Modal from "../modal/modal";
 
 export default function ModalOverlay({closeModal}) {
   return (

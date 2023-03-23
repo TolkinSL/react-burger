@@ -24,8 +24,6 @@ function App() {
     getData();
   }, []);
 
-  //console.log(ingredients);
-
   return (
     <>
       <AppHeader />

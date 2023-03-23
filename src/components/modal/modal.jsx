@@ -12,7 +12,6 @@ export default function Modal({children, closeModal}) {
   React.useEffect(() => {
     const handleEscape = (evt) => {
       if (evt.key === "Escape") {
-        console.log('Press Esc');
         closeModal();
       }
     };
@@ -24,7 +23,6 @@ export default function Modal({children, closeModal}) {
 
   return createPortal(
       <>
-        {/*<div className={styles.modal} onClick={(evt) => evt.stopPropagation()}>*/}
         <div className={styles.modal}>
           <button className={styles.button} type="button" onClick={closeModal}><CloseIcon type="primary"/></button>
           {children}

@@ -12,6 +12,9 @@ export default function BurgerIngredients({ingredients}) {
   const [current, setCurrent] = React.useState('bun');
   const [currentItem, setCurrentItem] = React.useState({});
   const [isModalIngredients, setModalIngredients] = React.useState(false);
+  const buns = React.useMemo(() => ingredients.filter((item) => item.type === 'bun'), [ingredients]);
+  const sauces = React.useMemo(() => ingredients.filter((item) => item.type === 'sauce'), [ingredients]);
+  const mains = React.useMemo(() => ingredients.filter((item) => item.type === 'main'), [ingredients]);
 
   const openModal = (item) => {
     setModalIngredients(true);
@@ -40,30 +43,24 @@ export default function BurgerIngredients({ingredients}) {
           <div className="mt-2">
             <h2 className="text text_type_main-medium">Булки</h2>
             <ul className={`${styles.ingredient} pt-6 pl-4`}>
-              {ingredients.map((item) => {
-                if (item.type === 'bun') {
-                  return <Ingredient {...item} key={item._id} openModal={() => openModal(item)}/>
-                }
+              {buns.map((item) => {
+                return <Ingredient {...item} key={item._id} openModal={() => openModal(item)}/>
               })}
             </ul>
           </div>
           <div className="mt-2">
             <h2 className="text text_type_main-medium">Соусы</h2>
             <ul className={`${styles.ingredient} pt-6 pl-4`}>
-              {ingredients.map((item) => {
-                if (item.type === 'sauce') {
+              {sauces.map((item) => {
                   return <Ingredient {...item} key={item._id} openModal={() => openModal(item)}/>
-                }
               })}
             </ul>
           </div>
           <div className="mt-2">
             <h2 className="text text_type_main-medium">Начинки</h2>
             <ul className={`${styles.ingredient} pt-6 pl-4`}>
-              {ingredients.map((item) => {
-                if (item.type === 'main') {
+              {mains.map((item) => {
                   return <Ingredient {...item} key={item._id} openModal={() => openModal(item)}/>
-                }
               })}
             </ul>
           </div>
@@ -71,7 +68,7 @@ export default function BurgerIngredients({ingredients}) {
 
         {isModalIngredients && (
             <Modal closeModal={handleClose}>
-              <IngredientDetails item={currentItem} />
+              <IngredientDetails item={currentItem}/>
             </Modal>
         )}
       </section>
@@ -79,5 +76,5 @@ export default function BurgerIngredients({ingredients}) {
 }
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(itemsType.isRequired).isRequired,
+  ingredients: PropTypes.arrayOf(itemsType).isRequired,
 }

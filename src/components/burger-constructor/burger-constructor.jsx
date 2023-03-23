@@ -10,10 +10,8 @@ import {itemsType} from '../../utils/types';
 
 export default function BurgerConstructor({ingredients}) {
   const [bunLocked] = ingredients.filter((item) => item.name === 'Краторная булка N-200i');
-  // console.log(bunLocked);
-  // console.log(ingredients);
-
   const [isModalOrder, setModalOrder] = React.useState(false);
+  const mains = React.useMemo(() => ingredients.filter((item) => item.type !== 'bun'), [ingredients]);
 
   const openModal = () => {
     setModalOrder(true);
@@ -35,8 +33,7 @@ export default function BurgerConstructor({ingredients}) {
           />
         </div>
         <ul className={styles.ingredients}>
-          {ingredients.map(item => {
-            if (item.type !== 'bun') {
+          {mains.map(item => {
               return (
                   <li className={`${styles.ingredient} mb-4`} key={item._id}>
                     <DragIcon type="primary"/>
@@ -46,7 +43,6 @@ export default function BurgerConstructor({ingredients}) {
                         thumbnail={item.image}/>
                   </li>
               )
-            }
           })}
         </ul>
         <div className="ml-8">
@@ -74,5 +70,5 @@ export default function BurgerConstructor({ingredients}) {
 }
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(itemsType.isRequired).isRequired,
+  ingredients: PropTypes.arrayOf(itemsType).isRequired,
 }
