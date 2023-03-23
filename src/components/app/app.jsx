@@ -18,7 +18,7 @@ function App() {
             return Promise.reject(`Ошибка ${res.status}`);
           })
           .then((data) => setIngredients(data.data))
-          .catch((err) => console.log(err));
+          .catch((err) => console.error(err));
     }
 
     getData();
