@@ -21,14 +21,23 @@ export default function BurgerConstructor() {
     mains.forEach((item) => cartItems.push(item));
     cartItems.push(bunLocked?._id);
     getOrder(cartItems)
-        .then((data) => setOrderNumber(data.order.number))
+        .then((data) => {
+          setOrderNumber(data.order.number);
+          setModalOrder(true);
+        })
         .catch((err) => console.error(err));
-    setModalOrder(true);
   };
 
   const handleClose = () => {
     setModalOrder(false);
   };
+
+  const orderSum = () => {
+    let sum = 0;
+    mains.forEach((item) => sum += item.price);
+    sum += bunLocked?.price * 2;
+    return sum;
+  }
 
   return (
       <section className="pt-25 pl-4">
@@ -64,7 +73,7 @@ export default function BurgerConstructor() {
           />
         </div>
         <div className={`${styles.price} mt-10 mr-4`}>
-          <p className="text text_type_digits-medium">610<img className={`${styles.diamond} ml-2`} src={diamond}
+          <p className="text text_type_digits-medium">{orderSum()}<img className={`${styles.diamond} ml-2`} src={diamond}
                                                               alt="Diamond"/></p>
           <Button htmlType="button" type="primary" size="large" onClick={openModal}>Оформить заказ</Button>
         </div>
