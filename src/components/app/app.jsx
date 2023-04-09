@@ -1,34 +1,26 @@
 import React from 'react';
 import './app.css';
 import AppHeader from '../app-header/app-header';
-import Main from "../main/main";
-
-const UrlData = 'https://norma.nomoreparties.space/api/ingredients';
+import Main from '../main/main';
+import {getIngredients} from '../../utils/api';
+import {UserContext} from "../../services/context";
 
 function App() {
   const [ingredients, setIngredients] = React.useState([]);
 
   React.useEffect(() => {
-    const getData = async () => {
-      return await fetch(UrlData)
-          .then((res) => {
-            if(res.ok) {
-              return res.json()
-            }
-            return Promise.reject(`Ошибка ${res.status}`);
-          })
-          .then((data) => setIngredients(data.data))
-          .catch((err) => console.error(err));
-    }
-
-    getData();
+    getIngredients()
+        .then((data) => setIngredients(data.data))
+        .catch((err) => console.error(err));
   }, []);
 
   return (
-    <>
-      <AppHeader />
-      <Main ingredients={ingredients} />
-    </>
+      <>
+        <AppHeader/>
+        <UserContext.Provider value={ingredients}>
+          <Main/>
+        </UserContext.Provider>
+      </>
   );
 }
 

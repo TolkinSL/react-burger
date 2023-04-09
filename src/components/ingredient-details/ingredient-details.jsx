@@ -1,6 +1,6 @@
 import styles from "./ingredient-details.module.css";
 import {itemsType} from '../../utils/types';
-import BurgerConstructor from "../burger-constructor/burger-constructor";
+
 
 export default function IngredientDetails({ item }) {
   return (
@@ -32,6 +32,6 @@ export default function IngredientDetails({ item }) {
   );
 }
 
-BurgerConstructor.propTypes = {
+IngredientDetails.propTypes = {
   item: itemsType.isRequired,
 }

@@ -1,17 +1,16 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import Ingredient from "../ingredient/ingredient";
 import styles from './burger-ingredients.module.css';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import PropTypes from 'prop-types';
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import {itemsType} from "../../utils/types";
+import {UserContext} from "../../services/context";
 
-export default function BurgerIngredients({ingredients}) {
+export default function BurgerIngredients() {
   const [current, setCurrent] = React.useState('bun');
   const [currentItem, setCurrentItem] = React.useState({});
   const [isModalIngredients, setModalIngredients] = React.useState(false);
+  const ingredients = useContext(UserContext);
   const buns = React.useMemo(() => ingredients.filter((item) => item.type === 'bun'), [ingredients]);
   const sauces = React.useMemo(() => ingredients.filter((item) => item.type === 'sauce'), [ingredients]);
   const mains = React.useMemo(() => ingredients.filter((item) => item.type === 'main'), [ingredients]);
@@ -73,8 +72,4 @@ export default function BurgerIngredients({ingredients}) {
         )}
       </section>
   );
-}
-
-BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(itemsType).isRequired,
 }
