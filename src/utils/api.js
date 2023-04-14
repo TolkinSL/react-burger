@@ -1,11 +1,11 @@
 const BASE_URL = 'https://norma.nomoreparties.space/api';
 
-export const getIngredients = async () => {
+export const getIngredientsApi = async () => {
   return await fetch(`${BASE_URL}/ingredients`)
       .then((res) => checkResponse(res));
 };
 
-export const getOrder = (itemsId) => {
+export const getOrderApi = (itemsId) => {
   return fetch(`${BASE_URL}/orders`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},

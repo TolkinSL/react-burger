@@ -5,27 +5,25 @@ import diamond from '../../images/diamond.svg';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import {UserContext} from "../../services/context";
-import {getOrder} from "../../utils/api";
+import {useDispatch} from 'react-redux';
+import {getOrder} from '../../services/actions/order-slice';
 
 
 export default function BurgerConstructor() {
   const ingredients = useContext(UserContext);
   const [bunLocked] = ingredients.filter((item) => item.name === 'Краторная булка N-200i');
   const [isModalOrder, setModalOrder] = React.useState(false);
-  const [orderNumber, setOrderNumber] = React.useState();
   const mains = React.useMemo(() => ingredients.filter((item) => item.type !== 'bun'), [ingredients]);
+
+  const dispatch = useDispatch();
 
   const openModal = () => {
     let cartItems = [];
     cartItems.push(bunLocked?._id);
     mains.forEach((item) => cartItems.push(item));
     cartItems.push(bunLocked?._id);
-    getOrder(cartItems)
-        .then((data) => {
-          setOrderNumber(data.order.number);
-          setModalOrder(true);
-        })
-        .catch((err) => console.error(err));
+    dispatch(getOrder(cartItems));
+    setModalOrder(true);
   };
 
   const handleClose = () => {
@@ -80,7 +78,7 @@ export default function BurgerConstructor() {
 
         {isModalOrder && (
             <Modal closeModal={handleClose}>
-              <OrderDetails orderNumber={orderNumber}/>
+              <OrderDetails />
             </Modal>
         )}
       </section>

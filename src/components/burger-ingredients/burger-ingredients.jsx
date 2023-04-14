@@ -5,23 +5,27 @@ import styles from './burger-ingredients.module.css';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import {UserContext} from "../../services/context";
+import {useDispatch, useSelector} from 'react-redux';
+import {setItemIngredient} from '../../services/actions/ingredient-slice';
 
 export default function BurgerIngredients() {
   const [current, setCurrent] = React.useState('bun');
-  const [currentItem, setCurrentItem] = React.useState({});
   const [isModalIngredients, setModalIngredients] = React.useState(false);
   const ingredients = useContext(UserContext);
   const buns = React.useMemo(() => ingredients.filter((item) => item.type === 'bun'), [ingredients]);
   const sauces = React.useMemo(() => ingredients.filter((item) => item.type === 'sauce'), [ingredients]);
   const mains = React.useMemo(() => ingredients.filter((item) => item.type === 'main'), [ingredients]);
 
+  const dispatch = useDispatch();
+
   const openModal = (item) => {
+    dispatch(setItemIngredient(item));
     setModalIngredients(true);
-    setCurrentItem(item);
   };
 
   const handleClose = () => {
     setModalIngredients(false);
+    dispatch(setItemIngredient({}));
   };
 
   return (
@@ -67,7 +71,7 @@ export default function BurgerIngredients() {
 
         {isModalIngredients && (
             <Modal closeModal={handleClose}>
-              <IngredientDetails item={currentItem}/>
+              <IngredientDetails />
             </Modal>
         )}
       </section>

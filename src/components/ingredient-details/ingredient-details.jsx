@@ -1,8 +1,9 @@
 import styles from "./ingredient-details.module.css";
-import {itemsType} from '../../utils/types';
+import {useSelector} from 'react-redux';
 
+export default function IngredientDetails() {
+  const item = useSelector((state) => state.ingredient.item);
 
-export default function IngredientDetails({ item }) {
   return (
       <section className={`${styles.container} pt-10 pb-15`}>
         <div className={styles.title}>
@@ -30,8 +31,4 @@ export default function IngredientDetails({ item }) {
         </ul>
       </section>
   );
-}
-
-IngredientDetails.propTypes = {
-  item: itemsType.isRequired,
 }
