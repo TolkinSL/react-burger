@@ -4,18 +4,28 @@ import styles from './burger-constructor.module.css';
 import diamond from '../../images/diamond.svg';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import {UserContext} from "../../services/context";
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {getOrder} from '../../services/actions/order-slice';
 
+import {addItem, resetItem, removeItem} from "../../services/actions/constructor-slice";
+import {useDrop} from "react-dnd";
+import {v4 as uuidv4} from 'uuid';
 
 export default function BurgerConstructor() {
-  const ingredients = useContext(UserContext);
-  const [bunLocked] = ingredients.filter((item) => item.name === 'Краторная булка N-200i');
+  const bunLocked = useSelector((state) => state.cart.bun);
   const [isModalOrder, setModalOrder] = React.useState(false);
-  const mains = React.useMemo(() => ingredients.filter((item) => item.type !== 'bun'), [ingredients]);
+  const mains = useSelector((state) => state.cart.items);
 
   const dispatch = useDispatch();
+
+  const [, dropTarget] = useDrop({
+    accept: "ingredient",
+    drop(item) {
+      dispatch(addItem({...item, id4: uuidv4()}));
+    },
+  });
+
+  console.log(bunLocked);
 
   const openModal = () => {
     let cartItems = [];
@@ -28,6 +38,7 @@ export default function BurgerConstructor() {
 
   const handleClose = () => {
     setModalOrder(false);
+    dispatch(resetItem());
   };
 
   const orderSum = () => {
@@ -37,26 +48,31 @@ export default function BurgerConstructor() {
     return sum;
   }
 
+  const removeItemId = (id4) => {
+    dispatch(removeItem(id4));
+  }
+
   return (
-      <section className="pt-25 pl-4">
+      <section className="pt-25 pl-4" ref={dropTarget}>
         <div className="ml-8">
           <ConstructorElement
               type="top"
               isLocked={true}
-              text={bunLocked ? bunLocked.name + ' (верх)' : ''}
-              price={bunLocked ? bunLocked.price : ''}
-              thumbnail={bunLocked ? bunLocked.image : ''}
+              text={Object.keys(bunLocked).length ? bunLocked.name + ' (верх)' : 'Добавьте булку !'}
+              price={Object.keys(bunLocked).length ? bunLocked.price : ''}
+              thumbnail={Object.keys(bunLocked).length ? bunLocked.image : ''}
           />
         </div>
         <ul className={styles.ingredients}>
           {mains.map(item => {
             return (
-                <li className={`${styles.ingredient} mb-4`} key={item._id}>
+                <li className={`${styles.ingredient} mb-4`} key={item.id4}>
                   <DragIcon type="primary"/>
                   <ConstructorElement
                       text={item.name}
                       price={item.price}
-                      thumbnail={item.image}/>
+                      thumbnail={item.image}
+                      handleClose={() => removeItemId(item.id4)}/>
                 </li>
             )
           })}
@@ -65,20 +81,21 @@ export default function BurgerConstructor() {
           <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={bunLocked ? bunLocked.name + ' (верх)' : ''}
-              price={bunLocked ? bunLocked.price : ''}
-              thumbnail={bunLocked ? bunLocked.image : ''}
+              text={Object.keys(bunLocked).length ? bunLocked.name + ' (низ)' : 'Добавьте булку !'}
+              price={Object.keys(bunLocked).length ? bunLocked.price : ''}
+              thumbnail={Object.keys(bunLocked).length ? bunLocked.image : ''}
           />
         </div>
         <div className={`${styles.price} mt-10 mr-4`}>
-          <p className="text text_type_digits-medium">{orderSum()}<img className={`${styles.diamond} ml-2`} src={diamond}
-                                                              alt="Diamond"/></p>
+          <p className="text text_type_digits-medium">{orderSum()}<img className={`${styles.diamond} ml-2`}
+                                                                       src={diamond}
+                                                                       alt="Diamond"/></p>
           <Button htmlType="button" type="primary" size="large" onClick={openModal}>Оформить заказ</Button>
         </div>
 
         {isModalOrder && (
             <Modal closeModal={handleClose}>
-              <OrderDetails />
+              <OrderDetails/>
             </Modal>
         )}
       </section>
