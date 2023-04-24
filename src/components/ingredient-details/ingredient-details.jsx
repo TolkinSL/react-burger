@@ -1,8 +1,10 @@
 import styles from "./ingredient-details.module.css";
-import {itemsType} from '../../utils/types';
-import BurgerConstructor from "../burger-constructor/burger-constructor";
+import {useSelector} from 'react-redux';
+import {getIngredientItem} from "../../utils/tools";
 
-export default function IngredientDetails({ item }) {
+export default function IngredientDetails() {
+  const item = useSelector(getIngredientItem);
+
   return (
       <section className={`${styles.container} pt-10 pb-15`}>
         <div className={styles.title}>
@@ -30,8 +32,4 @@ export default function IngredientDetails({ item }) {
         </ul>
       </section>
   );
-}
-
-BurgerConstructor.propTypes = {
-  item: itemsType.isRequired,
 }
