@@ -1,5 +1,6 @@
-import React, {useContext} from 'react';
+import React, {useEffect} from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
+import { useInView } from "react-intersection-observer";
 import Ingredient from "../ingredient/ingredient";
 import styles from './burger-ingredients.module.css';
 import Modal from '../modal/modal';
@@ -9,6 +10,9 @@ import {setItemIngredient} from '../../services/actions/ingredient-slice';
 
 export default function BurgerIngredients() {
   const [current, setCurrent] = React.useState('bun');
+  const [bunRef, bunView] = useInView({ threshold: 0.1 });
+  const [sauceRef, sauceView] = useInView({ threshold: 0.1 });
+  const [mainRef, mainView] = useInView({ threshold: 0.1 });
   const [isModalIngredients, setModalIngredients] = React.useState(false);
   const ingredients = useSelector((state) => state.ingredients.items);
   const buns = React.useMemo(() => ingredients.filter((item) => item.type === 'bun'), [ingredients]);
@@ -19,6 +23,34 @@ export default function BurgerIngredients() {
   const mainsCart = useSelector((state) => state.cart.items);
 
   const dispatch = useDispatch();
+
+  const ingredientScroll = () => {
+    switch (true) {
+      case bunView:
+        setCurrent("bun");
+        break;
+      case sauceView:
+        setCurrent("sauce");
+        break;
+      case mainView:
+        setCurrent("main");
+        break;
+      default:
+        break;
+    }
+  };
+
+  const tabClick = (type) => {
+    setCurrent(type);
+    const section = document.getElementById(type);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  useEffect(() => {
+    ingredientScroll();
+  }, [bunView, sauceView, mainView]);
 
   const openModal = (item) => {
     dispatch(setItemIngredient(item));
@@ -45,19 +77,19 @@ export default function BurgerIngredients() {
       <section className="pt-10">
         <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
         <div className={`${styles.tabs} mb-8`}>
-          <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
+          <Tab value="bun" active={current === 'bun'} onClick={() => tabClick("bun")}>
             Булки
           </Tab>
-          <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
+          <Tab value="sauce" active={current === 'sauce'} onClick={() => tabClick("sauce")}>
             Соусы
           </Tab>
-          <Tab value="main" active={current === 'main'} onClick={setCurrent}>
+          <Tab value="main" active={current === 'main'} onClick={() => tabClick("main")}>
             Начинки
           </Tab>
         </div>
         <div className={styles.ingredients}>
           <div className="mt-2">
-            <h2 className="text text_type_main-medium">Булки</h2>
+            <h2 className="text text_type_main-medium" ref={bunRef} id="bun">Булки</h2>
             <ul className={`${styles.ingredient} pt-6 pl-4`}>
               {buns.map((item) => {
                 return <Ingredient item={item} key={item._id} openModal={() => openModal(item)} count={countCart(item, bunCart)}/>
@@ -65,7 +97,7 @@ export default function BurgerIngredients() {
             </ul>
           </div>
           <div className="mt-2">
-            <h2 className="text text_type_main-medium">Соусы</h2>
+            <h2 className="text text_type_main-medium" ref={sauceRef} id="sauce">Соусы</h2>
             <ul className={`${styles.ingredient} pt-6 pl-4`}>
               {sauces.map((item) => {
                 return <Ingredient item={item} key={item._id} openModal={() => openModal(item)} count={countCart(item,mainsCart)}/>
@@ -73,7 +105,7 @@ export default function BurgerIngredients() {
             </ul>
           </div>
           <div className="mt-2">
-            <h2 className="text text_type_main-medium">Начинки</h2>
+            <h2 className="text text_type_main-medium" ref={mainRef} id="main">Начинки</h2>
             <ul className={`${styles.ingredient} pt-6 pl-4`}>
               {mains.map((item) => {
                   return <Ingredient item={item} key={item._id} openModal={() => openModal(item)} count={countCart(item,mainsCart)}/>

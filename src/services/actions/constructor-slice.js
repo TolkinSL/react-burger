@@ -23,10 +23,17 @@ const constructorSlice = createSlice({
         },
         removeItem(state, action) {
             state.items = state.items.filter((item) => item.id4 !== action.payload);
-        }
+        },
+        moveItem(state, action) {
+            const dragIndex = action.payload.dragIndex;
+            const hoverIndex = action.payload.hoverIndex;
+            const dragIngredient = action.payload.dragIngredient;
+            state.items.splice(dragIndex, 1);
+            state.items.splice(hoverIndex, 0, dragIngredient);
+        },
     },
 });
 
-export const {addItem, resetItem, removeItem} = constructorSlice.actions;
+export const {addItem, resetItem, removeItem, moveItem} = constructorSlice.actions;
 
 export default constructorSlice.reducer;

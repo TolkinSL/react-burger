@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {ConstructorElement, Button, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './burger-constructor.module.css';
 import diamond from '../../images/diamond.svg';
@@ -7,9 +7,11 @@ import OrderDetails from '../order-details/order-details';
 import {useDispatch, useSelector} from 'react-redux';
 import {getOrder} from '../../services/actions/order-slice';
 
-import {addItem, resetItem, removeItem} from "../../services/actions/constructor-slice";
+import {addItem, resetItem} from "../../services/actions/constructor-slice";
 import {useDrop} from "react-dnd";
 import {v4 as uuidv4} from 'uuid';
+
+import ConstructorMains from "../constructor-mains/constructor-mains";
 
 export default function BurgerConstructor() {
   const bunLocked = useSelector((state) => state.cart.bun);
@@ -24,8 +26,6 @@ export default function BurgerConstructor() {
       dispatch(addItem({...item, id4: uuidv4()}));
     },
   });
-
-  console.log(bunLocked);
 
   const openModal = () => {
     let cartItems = [];
@@ -48,10 +48,6 @@ export default function BurgerConstructor() {
     return sum;
   }
 
-  const removeItemId = (id4) => {
-    dispatch(removeItem(id4));
-  }
-
   return (
       <section className="pt-25 pl-4" ref={dropTarget}>
         <div className="ml-8">
@@ -64,16 +60,9 @@ export default function BurgerConstructor() {
           />
         </div>
         <ul className={styles.ingredients}>
-          {mains.map(item => {
+          {mains.map((item, index) => {
             return (
-                <li className={`${styles.ingredient} mb-4`} key={item.id4}>
-                  <DragIcon type="primary"/>
-                  <ConstructorElement
-                      text={item.name}
-                      price={item.price}
-                      thumbnail={item.image}
-                      handleClose={() => removeItemId(item.id4)}/>
-                </li>
+                <ConstructorMains ingredient={item} index={index} key={item.id4}/>
             )
           })}
         </ul>
