@@ -7,6 +7,7 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import {useDispatch, useSelector} from 'react-redux';
 import {setItemIngredient} from '../../services/actions/ingredient-slice';
+import {getIngredientsItems, getCartBun, getCartItems} from "../../utils/tools";
 
 export default function BurgerIngredients() {
   const [current, setCurrent] = React.useState('bun');
@@ -14,13 +15,13 @@ export default function BurgerIngredients() {
   const [sauceRef, sauceView] = useInView({ threshold: 0.1 });
   const [mainRef, mainView] = useInView({ threshold: 0.1 });
   const [isModalIngredients, setModalIngredients] = React.useState(false);
-  const ingredients = useSelector((state) => state.ingredients.items);
+  const ingredients = useSelector(getIngredientsItems);
   const buns = React.useMemo(() => ingredients.filter((item) => item.type === 'bun'), [ingredients]);
   const sauces = React.useMemo(() => ingredients.filter((item) => item.type === 'sauce'), [ingredients]);
   const mains = React.useMemo(() => ingredients.filter((item) => item.type === 'main'), [ingredients]);
 
-  const bunCart = [useSelector((state) => state.cart.bun)];
-  const mainsCart = useSelector((state) => state.cart.items);
+  const bunCart = [useSelector(getCartBun)];
+  const mainsCart = useSelector(getCartItems);
 
   const dispatch = useDispatch();
 

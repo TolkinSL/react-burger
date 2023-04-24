@@ -3,13 +3,13 @@ import './app.css';
 import AppHeader from '../app-header/app-header';
 import Main from '../main/main';
 import {getIngredientsApi} from '../../utils/api';
-import {UserContext} from "../../services/context";
 import {useDispatch, useSelector} from 'react-redux';
 import {getIngredients} from '../../services/actions/ingredients-slice';
+import {getIngredientsStatus} from "../../utils/tools";
 
 function App() {
   const dispatch = useDispatch();
-  const status = useSelector(state => state.ingredients.status);
+  const status = useSelector(getIngredientsStatus);
 
   // console.log(useSelector(state => state));
 
@@ -31,9 +31,7 @@ function App() {
   return (
       <>
         <AppHeader/>
-        <UserContext.Provider value={ingredients}>
-          <Main/>
-        </UserContext.Provider>
+        <Main/>
       </>
   );
 }

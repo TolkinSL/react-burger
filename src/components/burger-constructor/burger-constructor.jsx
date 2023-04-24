@@ -10,13 +10,14 @@ import {getOrder} from '../../services/actions/order-slice';
 import {addItem, resetItem} from "../../services/actions/constructor-slice";
 import {useDrop} from "react-dnd";
 import {v4 as uuidv4} from 'uuid';
+import {getBun, getMains} from "../../utils/tools";
 
 import ConstructorMains from "../constructor-mains/constructor-mains";
 
 export default function BurgerConstructor() {
-  const bunLocked = useSelector((state) => state.cart.bun);
+  const bunLocked = useSelector(getBun);
   const [isModalOrder, setModalOrder] = React.useState(false);
-  const mains = useSelector((state) => state.cart.items);
+  const mains = useSelector(getMains);
 
   const dispatch = useDispatch();
 
@@ -28,12 +29,14 @@ export default function BurgerConstructor() {
   });
 
   const openModal = () => {
-    let cartItems = [];
-    cartItems.push(bunLocked?._id);
-    mains.forEach((item) => cartItems.push(item));
-    cartItems.push(bunLocked?._id);
-    dispatch(getOrder(cartItems));
-    setModalOrder(true);
+    if (Object.keys(bunLocked).length !== 0) {
+      const cartItems = [];
+      cartItems.push(bunLocked?._id);
+      mains.forEach((item) => cartItems.push(item._id));
+      cartItems.push(bunLocked?._id);
+      dispatch(getOrder(cartItems));
+      setModalOrder(true);
+    }
   };
 
   const handleClose = () => {
@@ -45,7 +48,7 @@ export default function BurgerConstructor() {
     let sum = 0;
     mains.forEach((item) => sum += item.price);
     sum += bunLocked?.price * 2;
-    return sum;
+    return sum ? sum : 0;
   }
 
   return (

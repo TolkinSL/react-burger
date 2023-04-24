@@ -5,11 +5,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {addItem, removeItem, moveItem} from "../../services/actions/constructor-slice";
 import {useRef} from "react";
 import {useDrag, useDrop} from "react-dnd";
+import {getCartItems} from "../../utils/tools";
 
 export default function ConstructorMains({ingredient, index}) {
   const dispatch = useDispatch();
   const ref = useRef(null);
-  const ingredients = useSelector((state) => state.cart.items);
+  const ingredients = useSelector(getCartItems);
 
   const removeItemId = (id4) => {
     dispatch(removeItem(id4));
@@ -40,7 +41,7 @@ export default function ConstructorMains({ingredient, index}) {
     item.index = hoverIndex;
   };
 
-  const moveIngredient = (dragIndex, hoverIndex) => { //перемещение элементов
+  const moveIngredient = (dragIndex, hoverIndex) => {
     const dragIngredient = ingredients[dragIndex];
     dispatch(moveItem({ dragIndex, hoverIndex, dragIngredient }));
   };

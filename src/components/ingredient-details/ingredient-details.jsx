@@ -1,8 +1,9 @@
 import styles from "./ingredient-details.module.css";
 import {useSelector} from 'react-redux';
+import {getIngredientItem} from "../../utils/tools";
 
 export default function IngredientDetails() {
-  const item = useSelector((state) => state.ingredient.item);
+  const item = useSelector(getIngredientItem);
 
   return (
       <section className={`${styles.container} pt-10 pb-15`}>
