@@ -1,24 +1,49 @@
 const BASE_URL = 'https://norma.nomoreparties.space/api';
 
 export const getIngredientsApi = async () => {
-  return await fetch(`${BASE_URL}/ingredients`)
-      .then((res) => checkResponse(res));
+    return await fetch(`${BASE_URL}/ingredients`)
+        .then((res) => checkResponse(res));
 };
 
 export const getOrderApi = (itemsId) => {
-  return fetch(`${BASE_URL}/orders`, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      "ingredients": itemsId
+    return fetch(`${BASE_URL}/orders`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            "ingredients": itemsId
+        })
     })
-  })
-      .then((res) => checkResponse(res));
+        .then((res) => checkResponse(res));
+};
+
+export const registerApi = (user) => {
+    return fetch(`${BASE_URL}/auth/register`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            name: user.name,
+            email: user.email,
+            password: user.password,
+        }),
+    })
+        .then((res) => checkResponse(res));
+};
+
+export const loginApi = (user) => {
+    return fetch(`${BASE_URL}/auth/login`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            email: user.email,
+            password: user.password,
+        }),
+    })
+        .then((res) => checkResponse(res));
 };
 
 const checkResponse = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка: ${res.status}`);
+    if (res.ok) {
+        return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
 };
