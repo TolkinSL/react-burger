@@ -6,9 +6,9 @@ import {EmailInput, PasswordInput, Button} from "@ya.praktikum/react-developer-b
 import {loginRequest} from "../../services/actions/authorization-slice";
 import useForm from "../../hooks/useForm";
 
-export const Login = () => {
+const Login = () => {
     const dispatch = useDispatch();
-    const {values, handleChange} = useForm({ email: "", password: "" });
+    const {values, handleChange} = useForm({email: "", password: ""});
 
     const submitForm = (e) => {
         e.preventDefault();
@@ -21,6 +21,7 @@ export const Login = () => {
             <EmailInput
                 onChange={handleChange}
                 value={values.email}
+                type={"email"}
                 name={"email"}
                 placeholder="E-mail"
                 isIcon={false}
@@ -35,11 +36,11 @@ export const Login = () => {
             <Button htmlType="submit" type="primary" size="medium">Войти</Button>
             <div className="text text_type_main-default mt-20">
                 <span className="text_color_inactive">Вы - новый пользователь? </span>
-                <Link to='/register' className={styles.link}> Зарегистрироваться</Link>
+                <Link to="/register" className={styles.link}> Зарегистрироваться</Link>
             </div>
             <div className="text text_type_main-default mt-4">
                 <span className="text_color_inactive">Забыли пароль? </span>
-                <Link to='/forgot-password' className={styles.link}> Восстановить пароль</Link>
+                <Link to="/forgot-password" className={styles.link}> Восстановить пароль</Link>
             </div>
         </form>
     );

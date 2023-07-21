@@ -41,6 +41,29 @@ export const loginApi = (user) => {
         .then((res) => checkResponse(res));
 };
 
+export const restorePasswordApi = (user) => {
+    return fetch(`${BASE_URL}/password-reset`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            email: user.email,
+        }),
+    })
+        .then((res) => checkResponse(res));
+};
+
+export const resetPasswordApi = (values) => {
+    return fetch(`${BASE_URL}/password-reset/reset`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            password: values.password,
+            token: values.token,
+        }),
+    })
+        .then((res) => checkResponse(res));
+};
+
 const checkResponse = (res) => {
     if (res.ok) {
         return res.json();

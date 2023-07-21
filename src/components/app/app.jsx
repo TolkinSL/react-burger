@@ -8,6 +8,8 @@ import {Routes, Route, useLocation, useNavigate} from "react-router";
 import Login from "../../pages/login/login";
 import Layout from "../layout/layout";
 import Register from "../../pages/register/register";
+import ForgotPassword from "../../pages/forgot-password/forgot-password";
+import ResetPassword from "../../pages/reset-password/reset-password";
 
 function App() {
     const dispatch = useDispatch();
@@ -40,6 +42,8 @@ function App() {
                     <Route index element={<Main/>}/>
                     <Route path="login" element={<Login/>}/>
                     <Route path="register" element={<Register/>}/>
+                    <Route path="forgot-password" element={<ForgotPassword/>}/>
+                    <Route path="reset-password" element={<ResetPassword/>}/>
                 </Route>
             </Routes>
         </>
