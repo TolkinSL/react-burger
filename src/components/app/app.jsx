@@ -10,6 +10,10 @@ import Layout from "../layout/layout";
 import Register from "../../pages/register/register";
 import ForgotPassword from "../../pages/forgot-password/forgot-password";
 import ResetPassword from "../../pages/reset-password/reset-password";
+import Profile from "../../pages/profile/profile";
+import ProfileForm from "../profile-form/profile-form";
+import Orders from "../orders/orders";
+import Feed from "../../pages/feed/feed";
 
 function App() {
     const dispatch = useDispatch();
@@ -17,8 +21,6 @@ function App() {
     const navigate = useNavigate();
     const location = useLocation();
     const background = location.state?.background;
-
-    // console.log(useSelector(state => state));
 
     React.useEffect(() => {
         dispatch(getIngredients());
@@ -40,10 +42,15 @@ function App() {
             <Routes location={background ?? location}>
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<Main/>}/>
-                    <Route path="login" element={<Login/>}/>
-                    <Route path="register" element={<Register/>}/>
-                    <Route path="forgot-password" element={<ForgotPassword/>}/>
-                    <Route path="reset-password" element={<ResetPassword/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/register" element={<Register/>}/>
+                    <Route path="/forgot-password" element={<ForgotPassword/>}/>
+                    <Route path="/reset-password" element={<ResetPassword/>}/>
+                    <Route path="/profile" element={<Profile/>}>
+                        <Route index element={<ProfileForm/>}/>
+                        <Route path="/profile/orders" element={<Orders/>}/>
+                    </Route>
+                    <Route path="/feed" element={<Feed/>}/>
                 </Route>
             </Routes>
         </>

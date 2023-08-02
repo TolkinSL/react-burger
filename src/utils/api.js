@@ -64,6 +64,16 @@ export const resetPasswordApi = (values) => {
         .then((res) => checkResponse(res));
 };
 
+export const logoutApi = (token) => {
+    return fetch(`${BASE_URL}/auth/logout`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            token: token,
+        }),
+    })
+        .then((res) => checkResponse(res));
+};
 const checkResponse = (res) => {
     if (res.ok) {
         return res.json();

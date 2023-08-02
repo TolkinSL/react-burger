@@ -15,6 +15,7 @@ const Register = () => {
     const submitForm = (e) => {
         e.preventDefault();
         dispatch(registerRequest(values));
+        navigate("/");
     };
 
     return (

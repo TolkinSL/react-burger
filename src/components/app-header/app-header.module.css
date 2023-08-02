@@ -34,3 +34,12 @@
     left: 495px;
     top: 3px;
 }
+
+.link {
+    text-decoration: none;
+}
+
+.active {
+    text-decoration: none;
+    color: #fff;
+}

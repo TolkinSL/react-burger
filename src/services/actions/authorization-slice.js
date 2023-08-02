@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {registerApi, loginApi} from "../../utils/api";
-import {setCookie} from "../../utils/cookie";
+import {registerApi, loginApi, logoutApi} from "../../utils/api";
+import {setCookie, getCookie, deleteCookie} from "../../utils/cookie";
 
 const initialState = {
     userData: null,
@@ -24,12 +24,22 @@ export const registerRequest = createAsyncThunk(
 export const loginRequest = createAsyncThunk(
     "login/fetch",
     async (user) => {
-    const response = await loginApi(user);
-    setCookie("accessToken", response.accessToken.split("Bearer ")[1]);
-    setCookie("refreshToken", response.refreshToken);
-    console.log(response);
-    return response.user;
-});
+        const response = await loginApi(user);
+        setCookie("accessToken", response.accessToken.split("Bearer ")[1]);
+        setCookie("refreshToken", response.refreshToken);
+        console.log(response);
+        return response.user;
+    });
+
+export const logoutRequest = createAsyncThunk(
+    "logout/fetch",
+    async () => {
+        const response = await logoutApi(getCookie("refreshToken"));
+        deleteCookie("accessToken");
+        deleteCookie("refreshToken");
+        console.log(response);
+        return response;
+    });
 
 const authorizationSlice = createSlice({
     name: "authorization",
@@ -38,7 +48,7 @@ const authorizationSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(registerRequest.pending, (state) => {
-                return { ...state, isLoad: true };
+                state.isLoad = true;
             })
             .addCase(registerRequest.fulfilled, (state, action) => {
                 state.userData = action.payload;
@@ -48,7 +58,7 @@ const authorizationSlice = createSlice({
                 state.error = action.error.message;
             })
             .addCase(loginRequest.pending, (state) => {
-                return { ...state, isLoad: true };
+                state.isLoad = true;
             })
             .addCase(loginRequest.fulfilled, (state, action) => {
                 return {
@@ -60,7 +70,16 @@ const authorizationSlice = createSlice({
                 };
             })
             .addCase(loginRequest.rejected, (state, action) => {
-                return {...state, error: true}
+                state.error = true;
+            })
+            .addCase(logoutRequest.pending, (state) => {
+                return { ...state };
+            })
+            .addCase(logoutRequest.fulfilled, (state) => {
+                return initialState;
+            })
+            .addCase(logoutRequest.rejected, (state, action) => {
+                state.error = true;
             })
     },
 });
