@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {registerApi, loginApi, logoutApi} from "../../utils/api";
+import {registerApi, loginApi, logoutApi, updateUserApi} from "../../utils/api";
 import {setCookie, getCookie, deleteCookie} from "../../utils/cookie";
 
 const initialState = {
@@ -29,7 +29,8 @@ export const loginRequest = createAsyncThunk(
         setCookie("refreshToken", response.refreshToken);
         console.log(response);
         return response.user;
-    });
+    }
+);
 
 export const logoutRequest = createAsyncThunk(
     "logout/fetch",
@@ -40,6 +41,15 @@ export const logoutRequest = createAsyncThunk(
         console.log(response);
         return response;
     });
+
+export const updateUserRequest = createAsyncThunk(
+    'user/upddata',
+    async (user) => {
+        const response = await updateUserApi(user);
+        console.log(response);
+        return response;
+    }
+);
 
 const authorizationSlice = createSlice({
     name: "authorization",
@@ -73,12 +83,22 @@ const authorizationSlice = createSlice({
                 state.error = true;
             })
             .addCase(logoutRequest.pending, (state) => {
-                return { ...state };
+                return {...state};
             })
             .addCase(logoutRequest.fulfilled, (state) => {
                 return initialState;
             })
             .addCase(logoutRequest.rejected, (state, action) => {
+                state.error = true;
+            })
+            .addCase(updateUserRequest.pending, (state) => {
+                return {...state};
+            })
+            .addCase(updateUserRequest.fulfilled, (state, action) => {
+                state.userData = action.payload.user;
+                state.isLogin = true;
+            })
+            .addCase(updateUserRequest.rejected, (state, action) => {
                 state.error = true;
             })
     },

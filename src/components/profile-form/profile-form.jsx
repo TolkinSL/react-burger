@@ -1,11 +1,14 @@
 import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router";
 import {Button, Input, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile-form.module.css";
 import useForm from "../../hooks/useForm";
+import {updateUserRequest} from "../../services/actions/authorization-slice";
 
 
 const ProfileForm = () => {
-
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const {userData} = useSelector((store) => store.authorization);
 
@@ -17,10 +20,13 @@ const ProfileForm = () => {
 
     const submitForm = (e) => {
         e.preventDefault();
+        dispatch(updateUserRequest(values));
+        setValues({ ...values,
+            password: '',
+        });
     };
 
-    const reset = (e) => {
-        e.preventDefault();
+    const reset = () => {
         setValues({
             email: userData.email,
             name: userData.name,

@@ -1,3 +1,5 @@
+import {getCookie} from "./cookie";
+
 const BASE_URL = 'https://norma.nomoreparties.space/api';
 
 export const getIngredientsApi = async () => {
@@ -74,6 +76,23 @@ export const logoutApi = (token) => {
     })
         .then((res) => checkResponse(res));
 };
+
+export function updateUserApi(user) {
+    return fetch(`${BASE_URL}/auth/user`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + getCookie("accessToken"),
+        },
+        body: JSON.stringify({
+            name: user.name,
+            email: user.email,
+            password: user.password,
+        }),
+    })
+        .then((res) => checkResponse(res));
+}
+
 const checkResponse = (res) => {
     if (res.ok) {
         return res.json();
