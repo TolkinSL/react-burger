@@ -14,6 +14,7 @@ import Profile from "../../pages/profile/profile";
 import ProfileForm from "../profile-form/profile-form";
 import Orders from "../orders/orders";
 import Feed from "../../pages/feed/feed";
+import ProtectedRouteElement from "../protected-route-element/protected-route-element";
 
 function App() {
     const dispatch = useDispatch();
@@ -42,15 +43,15 @@ function App() {
             <Routes location={background ?? location}>
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<Main/>}/>
-                    <Route path="/login" element={<Login/>}/>
-                    <Route path="/register" element={<Register/>}/>
-                    <Route path="/forgot-password" element={<ForgotPassword/>}/>
-                    <Route path="/reset-password" element={<ResetPassword/>}/>
-                    <Route path="/profile" element={<Profile/>}>
+                    <Route path="login" element={<ProtectedRouteElement anon={true}><Login/></ProtectedRouteElement>}/>
+                    <Route path="register" element={<Register/>}/>
+                    <Route path="forgot-password" element={<ForgotPassword/>}/>
+                    <Route path="reset-password" element={<ResetPassword/>}/>
+                    <Route path="profile" element={<ProtectedRouteElement anon={false}><Profile/></ProtectedRouteElement>}>
                         <Route index element={<ProfileForm/>}/>
-                        <Route path="/profile/orders" element={<Orders/>}/>
+                        <Route path="orders" element={<Orders/>}/>
                     </Route>
-                    <Route path="/feed" element={<Feed/>}/>
+                    <Route path="feed" element={<ProtectedRouteElement anon={true}><Feed/></ProtectedRouteElement>}/>
                 </Route>
             </Routes>
         </>

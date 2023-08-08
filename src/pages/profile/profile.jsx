@@ -2,13 +2,15 @@ import {useDispatch} from "react-redux";
 import styles from "./profile.module.css";
 import {Outlet, NavLink, Link} from "react-router-dom";
 import {logoutRequest} from "../../services/actions/authorization-slice";
+import {useNavigate} from "react-router";
 
 export function Profile() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     function logout() {
         dispatch(logoutRequest());
-        console.log('Logout');
+        navigate("/", { replace: true });
     }
 
     return (

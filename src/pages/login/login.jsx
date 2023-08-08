@@ -1,7 +1,7 @@
 import React from "react";
 import {useDispatch} from "react-redux";
-import {Link} from 'react-router-dom';
-import {useNavigate} from "react-router";
+import {Link, Navigate} from 'react-router-dom';
+import {redirect, useLocation, useNavigate} from "react-router";
 import styles from "./login.module.css";
 import {EmailInput, PasswordInput, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {loginRequest} from "../../services/actions/authorization-slice";
@@ -9,13 +9,18 @@ import useForm from "../../hooks/useForm";
 
 const Login = () => {
     const dispatch = useDispatch();
-    const {values, handleChange} = useForm({email: "", password: ""});
+    const location = useLocation();
     const navigate = useNavigate();
+    const {values, handleChange} = useForm({email: "", password: ""});
+    const {from} = location.state;
+    // console.log('login-----');
+    // console.log(from);
 
     const submitForm = (e) => {
         e.preventDefault();
         dispatch(loginRequest(values));
-        navigate("/");
+        console.log('Redirect login');
+        console.log(from);
     };
 
     return (

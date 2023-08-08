@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {registerApi, loginApi, logoutApi, updateUserApi} from "../../utils/api";
+import {registerApi, loginApi, logoutApi, updateUserApi, getUserApi, refreshTokenApi} from "../../utils/api";
 import {setCookie, getCookie, deleteCookie} from "../../utils/cookie";
 
 const initialState = {
@@ -13,43 +13,70 @@ const initialState = {
 export const registerRequest = createAsyncThunk(
     "register/fetch",
     async (user) => {
-        const response = await registerApi(user);
-        setCookie("accessToken", response.accessToken.split("Bearer ")[1]);
-        setCookie("refreshToken", response.refreshToken);
-        console.log(response);
-        return response.user;
+        const res = await registerApi(user);
+        setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
+        setCookie("refreshToken", res.refreshToken);
+        console.log(res);
+        return res.user;
     }
 );
 
 export const loginRequest = createAsyncThunk(
     "login/fetch",
     async (user) => {
-        const response = await loginApi(user);
-        setCookie("accessToken", response.accessToken.split("Bearer ")[1]);
-        setCookie("refreshToken", response.refreshToken);
-        console.log(response);
-        return response.user;
+        const res = await loginApi(user);
+        setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
+        setCookie("refreshToken", res.refreshToken);
+        console.log(res);
+        return res.user;
     }
 );
 
 export const logoutRequest = createAsyncThunk(
     "logout/fetch",
     async () => {
-        const response = await logoutApi(getCookie("refreshToken"));
+        const res = await logoutApi(getCookie("refreshToken"));
         deleteCookie("accessToken");
         deleteCookie("refreshToken");
-        console.log(response);
-        return response;
+        console.log(res);
+        return res;
     });
 
 export const updateUserRequest = createAsyncThunk(
-    'user/upddata',
+    'userUpdate/fetch',
     async (user) => {
-        const response = await updateUserApi(user);
-        console.log(response);
-        return response;
+        const res = await updateUserApi(user);
+        console.log(res);
+        return res;
     }
 );
+
+export const getUserData = createAsyncThunk(
+    "getUserData/fetch", async () => {
+        try {
+            const res = await getUserApi();
+            return res.user;
+        } catch (err) {
+            return expiredToken(err).then(getUserData());
+        }
+});
+
+const expiredToken = (err) => err.then(err => {
+    if (err.message === "jwt malformed" || err.message === "jwt expired") {
+        refreshTokenApi(getCookie("refreshToken"))
+            .then((res) => {
+                setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
+                setCookie("refreshToken", res.refreshToken);
+                return res.user
+            })
+            .catch((err) => {
+                setCookie("accessToken", null);
+                setCookie("refreshToken", null);
+                return Promise.reject(err)
+            });
+    }
+    return Promise.reject(err)
+})
 
 const authorizationSlice = createSlice({
     name: "authorization",
@@ -99,6 +126,21 @@ const authorizationSlice = createSlice({
                 state.isLogin = true;
             })
             .addCase(updateUserRequest.rejected, (state, action) => {
+                state.error = true;
+            })
+            .addCase(getUserData.pending, (state) => {
+                state.isLoad = true;
+            })
+            .addCase(getUserData.fulfilled, (state, action) => {
+                return {
+                    isLoad: false,
+                    isLogin: true,
+                    success: true,
+                    userData: action.payload,
+                    error: null,
+                };
+            })
+            .addCase(getUserData.rejected, (state, action) => {
                 state.error = true;
             })
     },

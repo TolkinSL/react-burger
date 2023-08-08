@@ -93,6 +93,28 @@ export function updateUserApi(user) {
         .then((res) => checkResponse(res));
 }
 
+export function getUserApi() {
+    return fetch(`${BASE_URL}/auth/user`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + getCookie("accessToken"),
+        },
+    })
+        .then((res) => checkResponse(res));
+}
+
+export function refreshTokenApi(token) {
+    return fetch(`${BASE_URL}/auth/token`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            token: token,
+        }),
+    })
+        .then((res) => checkResponse(res));
+}
+
 const checkResponse = (res) => {
     if (res.ok) {
         return res.json();
