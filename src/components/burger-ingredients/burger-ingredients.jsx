@@ -114,12 +114,6 @@ export default function BurgerIngredients() {
             </ul>
           </div>
         </div>
-
-        {isModalIngredients && (
-            <Modal closeModal={handleClose}>
-              <IngredientDetails />
-            </Modal>
-        )}
       </section>
   );
 }
