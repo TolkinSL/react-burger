@@ -12,15 +12,15 @@ const Login = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const {values, handleChange} = useForm({email: "", password: ""});
-    const {from} = location.state;
+    const from = location.state?.from;
     // console.log('login-----');
     // console.log(from);
 
     const submitForm = (e) => {
         e.preventDefault();
         dispatch(loginRequest(values));
-        console.log('Redirect login');
-        console.log(from);
+        // console.log('Redirect login');
+        // console.log(from);
     };
 
     return (
