@@ -16,7 +16,7 @@ export const registerRequest = createAsyncThunk(
         const res = await registerApi(user);
         setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
         setCookie("refreshToken", res.refreshToken);
-        console.log(res);
+        // console.log(res);
         return res.user;
     }
 );
@@ -27,7 +27,7 @@ export const loginRequest = createAsyncThunk(
         const res = await loginApi(user);
         setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
         setCookie("refreshToken", res.refreshToken);
-        console.log(res);
+        // console.log(res);
         return res.user;
     }
 );
@@ -38,7 +38,7 @@ export const logoutRequest = createAsyncThunk(
         const res = await logoutApi(getCookie("refreshToken"));
         deleteCookie("accessToken");
         deleteCookie("refreshToken");
-        console.log(res);
+        // console.log(res);
         return res;
     });
 
@@ -46,7 +46,7 @@ export const updateUserRequest = createAsyncThunk(
     'userUpdate/fetch',
     async (user) => {
         const res = await updateUserApi(user);
-        console.log(res);
+        // console.log(res);
         return res;
     }
 );
@@ -61,10 +61,13 @@ export const getUserData = createAsyncThunk(
         }
 });
 
-const expiredToken = (err) => err.then(err => {
-    if (err.message === "jwt malformed" || err.message === "jwt expired") {
+const expiredToken = (err) => {
+    // console.log('Error Token expiredToken-----');
+    // console.log(err);
+    if (err === "Ошибка: 403") {
         refreshTokenApi(getCookie("refreshToken"))
             .then((res) => {
+                // console.log(res);
                 setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
                 setCookie("refreshToken", res.refreshToken);
                 return res.user
@@ -76,7 +79,7 @@ const expiredToken = (err) => err.then(err => {
             });
     }
     return Promise.reject(err)
-})
+}
 
 const authorizationSlice = createSlice({
     name: "authorization",

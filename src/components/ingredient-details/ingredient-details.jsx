@@ -4,17 +4,12 @@ import {getIngredientItem, getIngredientsItems} from "../../utils/tools";
 import {useParams} from 'react-router-dom';
 
 export default function IngredientDetails() {
+
     const {id} = useParams();
     const ingredients = useSelector(getIngredientsItems);
     const item = ingredients.find(item => item._id === id);
 
-    console.log('Ingredient-----');
-    console.log(ingredients);
-    console.log('Id-----');
-    console.log(id);
-
-    if (id) {
-        // const item = useSelector(getIngredientItem);
+    if (id && item) {
 
         return (
             <section className={`${styles.container} pt-10 pb-15`}>

@@ -14,7 +14,7 @@ const ForgotPassword = () => {
         e.preventDefault();
         restorePasswordApi(values)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 localStorage.setItem('restorePass', '1');
                 navigate('/reset-password');
             })

@@ -1,6 +1,5 @@
 import React from 'react';
 import Main from '../../pages/main/main';
-import {getIngredientsApi} from '../../utils/api';
 import {useDispatch, useSelector} from 'react-redux';
 import {getIngredients} from '../../services/actions/ingredients-slice';
 import {getIngredientsItems, getIngredientsStatus} from "../../utils/tools";
@@ -28,6 +27,7 @@ function App() {
 
     React.useEffect(() => {
         dispatch(getIngredients());
+        dispatch(getUserData());
     }, []);
 
     const handleModalClose = () => {
@@ -55,11 +55,12 @@ function App() {
                         <Route path="orders" element={<Orders/>}/>
                     </Route>
                     <Route path="feed" element={<ProtectedRouteElement anon={true}><Feed/></ProtectedRouteElement>}/>
+                    <Route path="ingredients/:id" element={<IngredientDetails />} />
                 </Route>
             </Routes>
             {background && status && (
                 <Routes>
-                    <Route path='ingredients/:id'
+                    <Route path='/ingredients/:id'
                            element={
                                <Modal closeModal={handleModalClose}>
                                    <IngredientDetails/>

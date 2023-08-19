@@ -5,18 +5,17 @@ import { getCookie } from "../../utils/cookie";
 import PropTypes from "prop-types";
 import {getUserData} from "../../services/actions/authorization-slice";
 import {useNavigate} from "react-router";
+import {authIsLogin, authUserData} from "../../utils/tools";
 
 const ProtectedRouteElement = ({ children, anon  }) => {
 
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    // console.log('Prot----');
-    // console.log(location);
 
 
-    const user = useSelector((store) => store.authorization.userData);
-    const isLogin = useSelector((store) => store.authorization.isLogin);
+    const user = useSelector(authUserData);
+    const isLogin = useSelector(authIsLogin);
 
     React.useEffect(() => {
         if (isLogin) {

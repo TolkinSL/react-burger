@@ -33,19 +33,6 @@ export default function Ingredient(props) {
                 </div>
             </Link>
         </li>
-        // <li className={`${styles.element} mb-8`} onClick={props.openModal} ref={dragRef}>
-        //     <Link className={`${styles.link} ${styles.element} mb-8`}
-        //         to={`/ingredients/${props.item._id}`}
-        //         state={{ background: location }} >
-        //   {props.count !==0 ? <Counter count={props.count} size="default" extraClass="m-1" /> : ''}
-        //   <img className="mb-1" src={props.item.image} alt={props.item.name}/>
-        //   <div className={styles.price}>
-        //     <p className="text text_type_digits-default mb-1">{props.item.price}</p>
-        //     <CurrencyIcon type="primary"/>
-        //   </div>
-        //   <p className={`${styles.title} text text_type_main-default`}>{props.item.name}</p>
-        // </Link>
-        // </li>
     );
 }
 
