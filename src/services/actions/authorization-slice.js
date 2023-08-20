@@ -25,7 +25,7 @@ export const loginRequest = createAsyncThunk(
     "login/fetch",
     async (user) => {
         const res = await loginApi(user);
-        setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
+        setCookie("accessToken", res.accessToken);
         setCookie("refreshToken", res.refreshToken);
         // console.log(res);
         return res.user;
@@ -46,40 +46,15 @@ export const updateUserRequest = createAsyncThunk(
     'userUpdate/fetch',
     async (user) => {
         const res = await updateUserApi(user);
-        // console.log(res);
         return res;
     }
 );
 
 export const getUserData = createAsyncThunk(
     "getUserData/fetch", async () => {
-        try {
-            const res = await getUserApi();
-            return res.user;
-        } catch (err) {
-            return expiredToken(err).then(getUserData());
-        }
+        const res = await getUserApi();
+        return res.user;
 });
-
-const expiredToken = (err) => {
-    // console.log('Error Token expiredToken-----');
-    // console.log(err);
-    if (err === "Ошибка: 403") {
-        refreshTokenApi(getCookie("refreshToken"))
-            .then((res) => {
-                // console.log(res);
-                setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
-                setCookie("refreshToken", res.refreshToken);
-                return res.user
-            })
-            .catch((err) => {
-                setCookie("accessToken", null);
-                setCookie("refreshToken", null);
-                return Promise.reject(err)
-            });
-    }
-    return Promise.reject(err)
-}
 
 const authorizationSlice = createSlice({
     name: "authorization",

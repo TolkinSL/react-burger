@@ -1,21 +1,14 @@
-import {getCookie} from "./cookie";
+import {getCookie, setCookie} from "./cookie";
 
 const BASE_URL = 'https://norma.nomoreparties.space/api';
 
 export const getIngredientsApi = async () => {
     return await fetch(`${BASE_URL}/ingredients`)
-        .then((res) => checkResponse(res));
+        .then(checkResponse);
 };
 
 export const getOrderApi = (itemsId) => {
-    return fetch(`${BASE_URL}/orders`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            "ingredients": itemsId
-        })
-    })
-        .then((res) => checkResponse(res));
+    return fetchWithRefresh('POST', `${BASE_URL}/orders`, {ingredients: itemsId});
 };
 
 export const registerApi = (user) => {
@@ -28,7 +21,7 @@ export const registerApi = (user) => {
             password: user.password,
         }),
     })
-        .then((res) => checkResponse(res));
+        .then(checkResponse);
 };
 
 export const loginApi = (user) => {
@@ -40,7 +33,7 @@ export const loginApi = (user) => {
             password: user.password,
         }),
     })
-        .then((res) => checkResponse(res));
+        .then(checkResponse);
 };
 
 export const restorePasswordApi = (user) => {
@@ -51,7 +44,7 @@ export const restorePasswordApi = (user) => {
             email: user.email,
         }),
     })
-        .then((res) => checkResponse(res));
+        .then(checkResponse);
 };
 
 export const resetPasswordApi = (values) => {
@@ -63,7 +56,7 @@ export const resetPasswordApi = (values) => {
             token: values.token,
         }),
     })
-        .then((res) => checkResponse(res));
+        .then(checkResponse);
 };
 
 export const logoutApi = (token) => {
@@ -74,50 +67,64 @@ export const logoutApi = (token) => {
             token: token,
         }),
     })
-        .then((res) => checkResponse(res));
+        .then(checkResponse);
 };
 
 export function updateUserApi(user) {
-    return fetch(`${BASE_URL}/auth/user`, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-            authorization: "Bearer " + getCookie("accessToken"),
-        },
-        body: JSON.stringify({
-            name: user.name,
-            email: user.email,
-            password: user.password,
-        }),
-    })
-        .then((res) => checkResponse(res));
+    return fetchWithRefresh('PATCH', `${BASE_URL}/auth/user`, {
+        name: user.name,
+        email: user.email,
+        password: user.password
+    });
 }
 
 export function getUserApi() {
-    return fetch(`${BASE_URL}/auth/user`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            authorization: "Bearer " + getCookie("accessToken"),
-        },
-    })
-        .then((res) => checkResponse(res));
+    return fetchWithRefresh('GET', `${BASE_URL}/auth/user`);
 }
 
-export function refreshTokenApi(token) {
+//New Authorization
+export const refreshTokenApi = () => {
     return fetch(`${BASE_URL}/auth/token`, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: {
+            "Content-Type": "application/json;charset=utf-8",
+        },
         body: JSON.stringify({
-            token: token,
+            token: getCookie("refreshToken"),
         }),
     })
-        .then((res) => checkResponse(res));
-}
+        .then(checkResponse);
+};
+
+export const fetchWithRefresh = async (method, URL, bodyJson) => {
+    const config = {
+        method: method,
+        headers: {
+            'Content-Type': "application/json",
+            authorization: getCookie("accessToken"),
+        },
+        body: JSON.stringify(bodyJson)
+    }
+    try {
+        const res = await fetch(URL, config);
+        return await checkResponse(res);
+    } catch (err) {
+        if (err.message === "jwt expired" || "jwt malformed") {
+            const refreshData = await refreshTokenApi();
+            if (!refreshData.success) {
+                return Promise.reject(refreshData);
+            }
+            setCookie("accessToken", refreshData.accessToken);
+            setCookie("refreshToken", refreshData.refreshToken);
+            config.headers.authorization = refreshData.accessToken;
+            const res = await fetch(URL, config);
+            return await checkResponse(res);
+        } else {
+            return Promise.reject(err);
+        }
+    }
+};
 
 const checkResponse = (res) => {
-    if (res.ok) {
-        return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
+    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };

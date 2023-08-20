@@ -17,6 +17,7 @@ import ProtectedRouteElement from "../protected-route-element/protected-route-el
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import {getUserData} from "../../services/actions/authorization-slice";
+import NotFound from "../../pages/not-found/not-found";
 
 function App() {
     const dispatch = useDispatch();
@@ -56,6 +57,7 @@ function App() {
                     </Route>
                     <Route path="feed" element={<ProtectedRouteElement anon={true}><Feed/></ProtectedRouteElement>}/>
                     <Route path="ingredients/:id" element={<IngredientDetails />} />
+                    <Route path="*" element={<NotFound/>}/>
                 </Route>
             </Routes>
             {background && status && (
