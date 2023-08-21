@@ -11,15 +11,17 @@ import {addItem, resetItem} from "../../services/actions/constructor-slice";
 import {useDrop} from "react-dnd";
 import {v4 as uuidv4} from 'uuid';
 import {getBun, getMains} from "../../utils/tools";
-
 import ConstructorMains from "../constructor-mains/constructor-mains";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function BurgerConstructor() {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
   const bunLocked = useSelector(getBun);
   const [isModalOrder, setModalOrder] = React.useState(false);
   const mains = useSelector(getMains);
-
-  const dispatch = useDispatch();
+  const isLogin = useSelector((store) => store.authorization.isLogin)
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
@@ -27,6 +29,10 @@ export default function BurgerConstructor() {
       dispatch(addItem({...item, id4: uuidv4()}));
     },
   });
+
+  const toLoginPage = () => {
+    navigate("/login", {from: location })
+  };
 
   const openModal = () => {
     if (Object.keys(bunLocked).length !== 0) {
@@ -82,7 +88,7 @@ export default function BurgerConstructor() {
           <p className="text text_type_digits-medium">{orderSum()}<img className={`${styles.diamond} ml-2`}
                                                                        src={diamond}
                                                                        alt="Diamond"/></p>
-          <Button htmlType="button" type="primary" size="large" onClick={openModal}>Оформить заказ</Button>
+          <Button htmlType="button" type="primary" size="large" onClick={isLogin ? openModal : toLoginPage}>Оформить заказ</Button>
         </div>
 
         {isModalOrder && (

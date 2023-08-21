@@ -9,8 +9,8 @@ const initialState = {
 export const getIngredients = createAsyncThunk(
     'ingredients/fetch',
     async () => {
-      const response = await getIngredientsApi();
-      return response.data;
+      const res = await getIngredientsApi();
+      return res.data;
     }
 );
 

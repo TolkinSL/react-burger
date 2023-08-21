@@ -9,8 +9,8 @@ const initialState = {
 export const getOrder = createAsyncThunk(
     'orderNumber/fetch',
     async (itemsId) => {
-      const response = await getOrderApi(itemsId);
-      return response.order.number;
+      const res = await getOrderApi(itemsId);
+      return res.order.number;
     }
 );
 
