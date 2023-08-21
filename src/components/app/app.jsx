@@ -55,7 +55,7 @@ function App() {
                         <Route index element={<ProfileForm/>}/>
                         <Route path="orders" element={<Orders/>}/>
                     </Route>
-                    <Route path="feed" element={<ProtectedRouteElement anon={true}><Feed/></ProtectedRouteElement>}/>
+                    <Route path="feed" element={<Feed/>}/>
                     <Route path="ingredients/:id" element={<IngredientDetails />} />
                     <Route path="*" element={<NotFound/>}/>
                 </Route>
