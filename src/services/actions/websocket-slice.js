@@ -30,6 +30,7 @@ const websocketSlice = createSlice({
         wsClose: (state) => {
             state.isConnected = false;
             state.isWsOpen = false;
+            state.orders = [];
         },
         wsMessage: (state, action) => {
             // state.messages = action.payload;

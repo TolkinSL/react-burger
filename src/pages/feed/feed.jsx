@@ -17,7 +17,7 @@ const Feed = () => {
         return () => {
             dispatch(disconnect());
         }
-    }, [dispatch]);
+    }, []);
 
     return (
         <>
@@ -28,7 +28,7 @@ const Feed = () => {
                         <ul className={style.order__list}>
                             {orders.map((order) => {
                                 return (
-                                    <OrderInfo order={order} key={order.number}/>
+                                    <OrderInfo order={order} currentUser={false} key={order.number}/>
                                 );
                             })}
                         </ul>

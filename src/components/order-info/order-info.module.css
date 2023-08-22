@@ -82,3 +82,12 @@
 .order__image:nth-child(6) {
   z-index: 1;
 }
+
+.status {
+  margin: 8px 0 0;
+}
+
+.status_done {
+  margin: 8px 0 0;
+  color: #0CC;
+}
