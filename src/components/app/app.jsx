@@ -18,6 +18,7 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import {getUserData} from "../../services/actions/authorization-slice";
 import NotFound from "../../pages/not-found/not-found";
+import {CurrentOrder} from "../current-order/current-order";
 
 function App() {
     const dispatch = useDispatch();
@@ -56,7 +57,9 @@ function App() {
                         <Route path="orders" element={<Orders/>}/>
                     </Route>
                     <Route path="feed" element={<Feed/>}/>
+                    <Route path="feed/:id" element={<CurrentOrder/>}/>
                     <Route path="ingredients/:id" element={<IngredientDetails />} />
+                    <Route path='profile/orders/:id' element={<ProtectedRouteElement anon={false}><CurrentOrder/></ProtectedRouteElement>}/>
                     <Route path="*" element={<NotFound/>}/>
                 </Route>
             </Routes>
@@ -67,6 +70,21 @@ function App() {
                                <Modal closeModal={handleModalClose}>
                                    <IngredientDetails/>
                                </Modal>
+                           }
+                    />
+                    <Route path='/feed/:id'
+                           element={
+                               <Modal closeModal={handleModalClose}>
+                                   <CurrentOrder/>
+                               </Modal>
+                           }
+                    />
+                    <Route path='/profile/orders/:id'
+                           element={<ProtectedRouteElement anon={false}>
+                               <Modal closeModal={handleModalClose}>
+                                   <CurrentOrder/>
+                               </Modal>
+                           </ProtectedRouteElement>
                            }
                     />
                 </Routes>

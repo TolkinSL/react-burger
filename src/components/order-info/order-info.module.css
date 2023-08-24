@@ -91,3 +91,7 @@
   margin: 8px 0 0;
   color: #0CC;
 }
+
+.link {
+  text-decoration: none;
+}

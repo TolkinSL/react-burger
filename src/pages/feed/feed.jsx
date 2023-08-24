@@ -19,6 +19,9 @@ const Feed = () => {
         }
     }, []);
 
+    const doneOrders = orders && orders.filter(item => item.status === 'done').slice(0, 20);
+    const pendingOrders = orders && orders.filter(item => item.status === 'pending').slice(0, 20);
+
     return (
         <>
             <main className={style.main}>
@@ -36,10 +39,14 @@ const Feed = () => {
                     <section className={style.orders}>
                         <div className={style.order__numbers}>
                             <div>
-                                <h2 className="text text_type_main-medium">Готовы:</h2>
+                                <p className="text text_type_main-medium">Готовы:</p>
+                                <div className={style.done_orders}>
+                                    {doneOrders.map((order, index) => <p className={style.done_order + " text text_type_digits-default"} key={index} >{order.number}</p>)}
+                                </div>
                             </div>
                             <div>
-                                <h2 className="text text_type_main-medium">В работе:</h2>
+                                <p className="text text_type_main-medium">В работе:</p>
+                                {pendingOrders && pendingOrders.map((order, index) => <p className=" text text_type_digits-default" key={index} >{order.number}</p>)}
                             </div>
                         </div>
                         <div>

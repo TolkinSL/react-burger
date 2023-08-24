@@ -1,0 +1,92 @@
+.main {
+  box-sizing: border-box;
+  margin: 0 auto;
+  width: 640px;
+  display: flex;
+  flex-direction: column;
+}
+
+.status {
+  color: #00cccc;
+  margin: 0 0 60px 0;
+}
+
+.number {
+  margin-top: 64px;
+  text-align: center;
+}
+
+.price_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: auto;
+}
+
+.main__date {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.main__items {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+}
+
+.main__ingredient {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+}
+
+.main__image {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid #4C4CFF;
+  object-fit: cover;
+  background-color: #1C1C21;
+  margin-right: 16px;
+}
+
+.main__price {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  margin: 0 24px 0 0;
+}
+
+.main__numbers {
+  display: flex;
+  margin: 0;
+}
+
+.main__list {
+  height: 340px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: scroll;
+}
+
+.main__list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main__list::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+
+.main__list::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+}
+
+.main__listItem {
+  margin: 0;
+}

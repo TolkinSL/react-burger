@@ -7,7 +7,7 @@
     width: 720px;
     background: #1C1C21;
     border-radius: 40px;
-    z-index: 2;
+    z-index: 10;
 }
 
 .button {

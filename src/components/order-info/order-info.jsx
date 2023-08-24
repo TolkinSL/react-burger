@@ -2,7 +2,7 @@ import React from "react";
 import {useSelector} from "react-redux";
 import {CurrencyIcon, FormattedDate} from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './order-info.module.css';
-import {useLocation} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {getIngredientsItems} from "../../utils/tools";
 
 const OrderInfo = (props) => {
@@ -10,7 +10,7 @@ const OrderInfo = (props) => {
 
     const orderIngredients = props.order.ingredients;
     const burgerIngredients = useSelector(getIngredientsItems);
-    console.log('Order-------');
+    // console.log('Order-------');
     //console.log(ingredientsAll);
     const totalPrice = orderIngredients.reduce((acc, ritem) => {
         const temp = burgerIngredients.find(item => item._id === ritem);
@@ -30,11 +30,11 @@ const OrderInfo = (props) => {
         orderStatus = <p className={style.status + " text text_type_main-default"}>Готовится</p>;
     }
 
-    //{order.status == 'done' ? <p className={style.status_done + " text text_type_main-default"}>Выполнен</p> : order.status == 'created' ? <p className={style.status + " text text_type_main-default"}>Создан</p> : <p className={style.status + " text text_type_main-default"}>Готовится</p>}
-    //console.log(props.order);
-
+    const routing = location.pathname === '/feed' ? '/feed/' : '/profile/orders/';
+    // console.log(location);
     return (
         <li>
+            <Link to={`${routing}${props.order.number}`} state={{ background: location }} className={style.link}>
             <div className={style.order}>
                 <div className={style.order__number}>
                     <p className="text text_type_digits-default">{`#${props.order.number}`}</p>
@@ -48,8 +48,7 @@ const OrderInfo = (props) => {
                 <div className={style.order__info}>
                     <div className={style.ingredients}>
                         {
-                            imageIngredients.map((item, index) => <img className={style.order__image} src={item}
-                                                                       key={index}/>)
+                            imageIngredients.map((item, index) => <img className={style.order__image} src={item} key={index}/>)
                         }
                     </div>
                     <div className={style.order__price}>
@@ -58,6 +57,7 @@ const OrderInfo = (props) => {
                     </div>
                 </div>
             </div>
+            </Link>
         </li>
         // </Link>
     )

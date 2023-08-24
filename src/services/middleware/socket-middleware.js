@@ -38,12 +38,12 @@ export const socketMiddleware = (wsActions) => {
                 };
 
                 socket.onclose = (event) => {
-                    console.log('OnClose закрытие сокета');
+                    // console.log('OnClose закрытие сокета');
                     dispatch(onClose());
                 };
 
                 if (wsDisconnect.type === type) {
-                    console.log('закрытие сокета');
+                    // console.log('закрытие сокета');
                     socket.close();
                     socket = null;
                 }
