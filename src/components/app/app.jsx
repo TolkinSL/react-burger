@@ -19,13 +19,14 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import {getUserData} from "../../services/actions/authorization-slice";
 import NotFound from "../../pages/not-found/not-found";
 import {CurrentOrder} from "../current-order/current-order";
+import FreeRouteElement from "../free-route-element/free-route-element";
 
 function App() {
     const dispatch = useDispatch();
     const status = useSelector(getIngredientsStatus);
     const navigate = useNavigate();
     const location = useLocation();
-    const background = location.state && location.state.background;
+    const background = location.state?.background;
 
     React.useEffect(() => {
         dispatch(getIngredients());
@@ -44,43 +45,39 @@ function App() {
             <Routes location={background || location}>
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<Main/>}/>
-                    <Route path="login" element={<ProtectedRouteElement anon={true}><Login/></ProtectedRouteElement>}/>
-                    <Route path="register"
-                           element={<ProtectedRouteElement anon={true}><Register/></ProtectedRouteElement>}/>
-                    <Route path="forgot-password"
-                           element={<ProtectedRouteElement anon={true}><ForgotPassword/></ProtectedRouteElement>}/>
-                    <Route path="reset-password"
-                           element={<ProtectedRouteElement anon={true}><ResetPassword/></ProtectedRouteElement>}/>
-                    <Route path="profile"
-                           element={<ProtectedRouteElement anon={false}><Profile/></ProtectedRouteElement>}>
+                    <Route path="login" element={<FreeRouteElement><Login/></FreeRouteElement>}/>
+                    <Route path="register" element={<FreeRouteElement><Register/></FreeRouteElement>}/>
+                    <Route path="forgot-password" element={<FreeRouteElement><ForgotPassword/></FreeRouteElement>}/>
+                    <Route path="reset-password" element={<FreeRouteElement><ResetPassword/></FreeRouteElement>}/>
+                    <Route path="profile" element={<ProtectedRouteElement><Profile/></ProtectedRouteElement>}>
                         <Route index element={<ProfileForm/>}/>
                         <Route path="orders" element={<Orders/>}/>
                     </Route>
                     <Route path="feed" element={<Feed/>}/>
                     <Route path="feed/:id" element={<CurrentOrder/>}/>
-                    <Route path="ingredients/:id" element={<IngredientDetails />} />
-                    <Route path='profile/orders/:id' element={<ProtectedRouteElement anon={false}><CurrentOrder/></ProtectedRouteElement>}/>
+                    <Route path="ingredients/:id" element={<IngredientDetails/>}/>
+                    <Route path='profile/orders/:id' element={<ProtectedRouteElement><CurrentOrder/></ProtectedRouteElement>}/>
                     <Route path="*" element={<NotFound/>}/>
                 </Route>
             </Routes>
-            {background && status && (
+            {background && (
                 <Routes>
-                    <Route path='/ingredients/:id'
+                    <Route path='ingredients/:id'
                            element={
                                <Modal closeModal={handleModalClose}>
                                    <IngredientDetails/>
                                </Modal>
                            }
                     />
-                    <Route path='/feed/:id'
+                    <Route path='feed/:id'
                            element={
                                <Modal closeModal={handleModalClose}>
                                    <CurrentOrder/>
                                </Modal>
                            }
                     />
-                    <Route path='/profile/orders/:id'
-                           element={<ProtectedRouteElement anon={false}>
+                    <Route path='profile/orders/:id'
+                           element={<ProtectedRouteElement>
                                <Modal closeModal={handleModalClose}>
                                    <CurrentOrder/>
                                </Modal>

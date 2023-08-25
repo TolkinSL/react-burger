@@ -18,17 +18,12 @@ export const CurrentOrder = ({isUserOrder}) => {
     const burgerIngredients = useSelector(getIngredientsItems);
     const {id} = useParams();
 
-    const isClearLoaction = location?.state;
+    //const isClearLoaction = location?.state;
+    // console.log('Location-------');
+    // console.log(location);
+
     useEffect(() => {
         dispatch(getCurrentOrder(id));
-        // if (location?.state.background.pathname !== '/feed')
-        // if (!isClearLoaction)
-        // {
-        //     dispatch(connect('wss://norma.nomoreparties.space/orders/all'));
-        //     return () => {
-        //         dispatch(disconnect());
-        //     }
-        // }
     }, []);
 
     const totalPrice = order.ingredients?.reduce((acc, ritem) => {
@@ -43,6 +38,21 @@ export const CurrentOrder = ({isUserOrder}) => {
 
     // console.log('Item Ingredients--------');
     // console.log(itemIngredients);
+
+    const mergedIngredients = itemIngredients?.reduce((acc, ingredient) => {
+        const existingIngredient = acc.find(item => item._id === ingredient._id);
+        if (existingIngredient) {
+            existingIngredient.count += 1;
+        } else {
+            const newIngredient = {...ingredient, count: 1};
+            acc.push(newIngredient);
+        }
+
+        return acc;
+    }, []);
+
+    // console.log('Merget Ingredients--------');
+    // console.log(mergedIngredients);
 
     let orderStatus = '';
     if (order.status == 'done') {
@@ -62,7 +72,7 @@ export const CurrentOrder = ({isUserOrder}) => {
                     <p className={`text_type_main-small ${style.status}`}>{orderStatus}</p>
                     <p className="text text_type_main-medium mb-6">Состав: </p>
                     <ul className={style.main__list}>
-                        {itemIngredients.map((item, index) => (
+                        {mergedIngredients.map((item, index) => (
                                 <li className={style.main__listItem} key={index}>
                                     <div className={style.main__items}>
                                         <div className={style.main__ingredient}>
@@ -70,7 +80,7 @@ export const CurrentOrder = ({isUserOrder}) => {
                                             <p className="text text_type_main-small">{item.name}</p>
                                         </div>
                                         <div className={style.main__price + " text text_type_digits-default"}>
-                                            <p className={style.main__numbers}>1&nbsp;x&nbsp;{item.price}&nbsp;</p>
+                                            <p className={style.main__numbers}>{item.count}&nbsp;x&nbsp;{item.price}&nbsp;</p>
                                             <CurrencyIcon type="primary"/>
                                         </div>
                                     </div>

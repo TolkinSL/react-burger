@@ -4,6 +4,7 @@ import {CurrencyIcon, FormattedDate} from '@ya.praktikum/react-developer-burger-
 import style from './order-info.module.css';
 import {Link, useLocation} from "react-router-dom";
 import {getIngredientsItems} from "../../utils/tools";
+import ImageContainer from "../image-container/image-container";
 
 const OrderInfo = (props) => {
     const location = useLocation();
@@ -19,7 +20,12 @@ const OrderInfo = (props) => {
     const imageIngredients = orderIngredients.map((ritem) => {
         const temp = burgerIngredients.find(item => item._id === ritem);
         return temp.image_mobile;
-    }).slice(0, 7);
+    });
+
+    // const imageIngredients = orderIngredients.map((ritem) => {
+    //     const temp = burgerIngredients.find(item => item._id === ritem);
+    //     return temp.image_mobile;
+    // }).slice(0, 7);
 
     let orderStatus = '';
     if (props.order.status == 'done') {
@@ -31,6 +37,7 @@ const OrderInfo = (props) => {
     }
 
     const routing = location.pathname === '/feed' ? '/feed/' : '/profile/orders/';
+    // console.log('История заказов-------');
     // console.log(location);
     return (
         <li>
@@ -47,9 +54,10 @@ const OrderInfo = (props) => {
                 </div>
                 <div className={style.order__info}>
                     <div className={style.ingredients}>
-                        {
-                            imageIngredients.map((item, index) => <img className={style.order__image} src={item} key={index}/>)
-                        }
+                        {/*{*/}
+                        {/*    imageIngredients.map((item, index) => <img className={style.order__image} src={item} key={index}/>)*/}
+                        {/*}*/}
+                        <ImageContainer image={imageIngredients} />
                     </div>
                     <div className={style.order__price}>
                         <p className="text text_type_digits-default">{totalPrice}</p>
