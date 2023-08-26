@@ -25,7 +25,7 @@ export function Profile() {
                             Профиль
                         </NavLink>
                     </li>
-                    <li className={`${styles.item}`}>
+                    <li className={styles.item}>
                         <NavLink to="/profile/orders"
                             className={({isActive, isPending}) =>
                                 isPending ? styles.link + " text text_type_main-medium text_color_inactive" : isActive ? styles.linkActive + " text text_type_main-medium" : styles.link + " text text_type_main-medium text_color_inactive"
@@ -33,7 +33,7 @@ export function Profile() {
                             История заказов
                         </NavLink>
                     </li>
-                    <li className={`${styles.item}`}>
+                    <li className={styles.item}>
                         <Link to="/login" onClick={logout} className={styles.link + " text text_type_main-medium text_color_inactive"}>Выход</Link>
                     </li>
                 </ul>

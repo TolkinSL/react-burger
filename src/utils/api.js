@@ -7,6 +7,11 @@ export const getIngredientsApi = async () => {
         .then(checkResponse);
 };
 
+export const getCurrentOrderApi = async (number) => {
+    return  await fetch(`${BASE_URL}/orders/${number}`)
+        .then(checkResponse);
+}
+
 export const getOrderApi = (itemsId) => {
     return fetchWithRefresh('POST', `${BASE_URL}/orders`, {ingredients: itemsId});
 };
@@ -95,6 +100,8 @@ export const refreshTokenApi = () => {
     })
         .then(checkResponse);
 };
+
+
 
 export const fetchWithRefresh = async (method, URL, bodyJson) => {
     const config = {

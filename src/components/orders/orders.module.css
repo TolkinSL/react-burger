@@ -1,0 +1,23 @@
+.main__orders {
+    /*width: 600px;*/
+    height: 870px;
+    overflow-y: scroll;
+}
+
+.main__orders::-webkit-scrollbar {
+    width: 8px;
+}
+
+.main__orders::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+
+.main__orders::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+
+.order__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}

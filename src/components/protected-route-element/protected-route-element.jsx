@@ -7,7 +7,7 @@ import {getUserData} from "../../services/actions/authorization-slice";
 import {useNavigate} from "react-router";
 import {authIsLogin, authUserData} from "../../utils/tools";
 
-const ProtectedRouteElement = ({ children, anon  }) => {
+const ProtectedRouteElement = ({ children }) => {
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -16,23 +16,27 @@ const ProtectedRouteElement = ({ children, anon  }) => {
 
     const user = useSelector(authUserData);
     const isLogin = useSelector(authIsLogin);
+    const error = useSelector((state) => state.authorization.error);
 
     React.useEffect(() => {
-        if (isLogin) {
-            dispatch(getUserData());
-        }
+        dispatch(getUserData());
     }, []);
 
-    if (!anon && !user) {
-        return <Navigate to="/login" state={{ from: location }} />;
+    if (!user) {
+        if (error) {
+            return <Navigate to="/login"/>;
+        } else {
+            return null;
+        }
+    } else {
+        if (isLogin) {
+            return children;
+        } else {
+            return <Navigate to="/login"/>;
+        }
     }
-    if (anon && user) {
-        const { from } = location.state || { from: { pathname: "/" } };
-        return <Navigate to={from} />;
-    }
+};
 
-    return children;
-}
 
 export default ProtectedRouteElement;
 

@@ -1,3 +1,16 @@
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white) ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
+# Учебный проект "Stellar Burger"
+Веб-разработчик+ Яндекс.Практикум
+## Описание
+
+Конструктор бургера, получение ингредиентов с сервера, заказов, отправка заказа
+
+## Используемые технологии
+- React
+- React Router 6
+- Redux Toolkit
+- WebSocket
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
