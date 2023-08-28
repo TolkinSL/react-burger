@@ -1,5 +1,5 @@
 import React from 'react';
-import {ConstructorElement, Button, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import {ConstructorElement, Button, DragIcon, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './burger-constructor.module.css';
 import diamond from '../../images/diamond.svg';
 import Modal from '../modal/modal';
@@ -85,9 +85,10 @@ export default function BurgerConstructor() {
           />
         </div>
         <div className={`${styles.price} mt-10 mr-4`}>
-          <p className="text text_type_digits-medium">{orderSum()}<img className={`${styles.diamond} ml-2`}
-                                                                       src={diamond}
-                                                                       alt="Diamond"/></p>
+          {/*<p className="text text_type_digits-medium">{orderSum()}<img className={`${styles.diamond} ml-2`}*/}
+          {/*                                                             src={diamond}*/}
+          {/*                                                             alt=""/></p>*/}
+          <p className="text text_type_digits-medium">{orderSum()}<CurrencyIcon type="primary"/></p>
           <Button htmlType="button" type="primary" size="large" onClick={isLogin ? openModal : toLoginPage}>Оформить заказ</Button>
         </div>
 
