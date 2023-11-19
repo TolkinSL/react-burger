@@ -14,3 +14,23 @@ export const itemsType = PropTypes.shape({
   type: PropTypes.string.isRequired,
   __v: PropTypes.number.isRequired,
 });
+
+export type TwsOrders = {
+  isConnected: boolean;
+  isConnecting: boolean;
+  isWsOpen: boolean;
+  error: boolean;
+  orders: TwsOrder[];
+  total: number;
+  totalToday: number;
+}
+
+export type TwsOrder = {
+  _id: string;
+  status: string | "pending" | "done";
+  name: string;
+  number: number;
+  ingredients: string[];
+  createdAt: string;
+  updatedAt: string;
+};

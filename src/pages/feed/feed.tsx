@@ -3,12 +3,14 @@ import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import style from './feed.module.css';
 import OrderInfo from "../../components/order-info/order-info";
+import {TwsOrder} from "../../utils/types";
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
 const Feed = () => {
-    const dispatch = useDispatch();
-    const orders = useSelector(store => store.wsData.orders);
-    const ordersAll = useSelector(store => store.wsData.total);
-    const ordersToday = useSelector(store => store.wsData.totalToday);
+    const dispatch = useAppDispatch();
+    const orders: TwsOrder[] = useAppSelector(store => store.wsData.orders);
+    const ordersAll = useAppSelector(store => store.wsData.total);
+    const ordersToday = useAppSelector(store => store.wsData.totalToday);
     // console.log('WsOrder');
     // console.log(orders);
 

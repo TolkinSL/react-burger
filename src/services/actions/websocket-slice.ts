@@ -1,20 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice, ActionCreatorWithPayload, ActionCreatorWithoutPayload} from '@reduxjs/toolkit';
+import {TwsOrders} from "../../utils/types";
+
+const initialState: TwsOrders = {
+    isConnected: false,
+    isConnecting: false,
+    isWsOpen: false,
+    error: false,
+    orders: [],
+    total: 0,
+    totalToday: 0,
+};
 
 const websocketSlice = createSlice({
     name: 'wsData',
-    initialState: {
-        isConnected: false,
-        isConnecting: false,
-        isWsOpen: false,
-        // messages: [],
-        error: null,
-        orders: [],
-        total: 0,
-        totalToday: 0,
-    },
+
+    initialState,
     reducers: {
 
-        connect: (state) => {
+        connect: (state, action) => {
             state.isConnected = true;
         },
         disconnect: (state) => {

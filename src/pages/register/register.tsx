@@ -7,13 +7,15 @@ import {useNavigate} from "react-router";
 import {registerRequest} from "../../services/actions/authorization-slice";
 import useForm from "../../hooks/useForm";
 
+import { FC, FormEvent } from 'react';
+
 const Register = () => {
     const dispatch = useDispatch();
     const {values, handleChange} = useForm({name: "", email: "", password: ""});
     const navigate = useNavigate();
 
-    const submitForm = (e) => {
-        e.preventDefault();
+    const submitForm = (evt: FormEvent<HTMLFormElement>) => {
+        evt.preventDefault();
         dispatch(registerRequest(values));
         navigate("/");
     };
@@ -32,7 +34,7 @@ const Register = () => {
             <EmailInput
                 onChange={handleChange}
                 value={values.email}
-                type={"email"}
+                // type={"email"}
                 name={"email"}
                 placeholder="E-mail"
                 isIcon={false}
@@ -41,7 +43,7 @@ const Register = () => {
             <PasswordInput
                 onChange={handleChange}
                 value={values.password}
-                type={"password"}
+                // type={"password"}
                 name={"password"}
                 extraClass="mb-6 mt-6"
             />

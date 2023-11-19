@@ -2,17 +2,21 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {registerApi, loginApi, logoutApi, updateUserApi, getUserApi, refreshTokenApi} from "../../utils/api";
 import {setCookie, getCookie, deleteCookie} from "../../utils/cookie";
 
+type UserData = {
+    [key: string]: string,
+}
+
 const initialState = {
     userData: null,
     isLoad: false,
     isLogin: false,
-    error: null,
+    error: false,
     success: false,
 };
 
 export const registerRequest = createAsyncThunk(
     "register/fetch",
-    async (user) => {
+    async (user: UserData) => {
         const res = await registerApi(user);
         setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
         setCookie("refreshToken", res.refreshToken);
@@ -23,7 +27,7 @@ export const registerRequest = createAsyncThunk(
 
 export const loginRequest = createAsyncThunk(
     "login/fetch",
-    async (user) => {
+    async (user: UserData) => {
         const res = await loginApi(user);
         setCookie("accessToken", res.accessToken);
         setCookie("refreshToken", res.refreshToken);
@@ -44,7 +48,7 @@ export const logoutRequest = createAsyncThunk(
 
 export const updateUserRequest = createAsyncThunk(
     'userUpdate/fetch',
-    async (user) => {
+    async (user: UserData) => {
         const res = await updateUserApi(user);
         return res;
     }
@@ -70,7 +74,7 @@ const authorizationSlice = createSlice({
                 state.isLogin = true;
             })
             .addCase(registerRequest.rejected, (state, action) => {
-                state.error = action.error.message;
+                state.error = true;
             })
             .addCase(loginRequest.pending, (state) => {
                 state.isLoad = true;
@@ -81,7 +85,7 @@ const authorizationSlice = createSlice({
                     isLogin: true,
                     success: true,
                     userData: action.payload,
-                    error: null,
+                    error: false,
                 };
             })
             .addCase(loginRequest.rejected, (state, action) => {
@@ -115,7 +119,7 @@ const authorizationSlice = createSlice({
                     isLogin: true,
                     success: true,
                     userData: action.payload,
-                    error: null,
+                    error: false,
                 };
             })
             .addCase(getUserData.rejected, (state, action) => {

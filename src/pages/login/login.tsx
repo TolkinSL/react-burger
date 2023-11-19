@@ -7,6 +7,8 @@ import {EmailInput, PasswordInput, Button} from "@ya.praktikum/react-developer-b
 import {loginRequest} from "../../services/actions/authorization-slice";
 import useForm from "../../hooks/useForm";
 
+import { FC, FormEvent } from 'react';
+
 const Login = () => {
     const dispatch = useDispatch();
     const location = useLocation();
@@ -16,8 +18,8 @@ const Login = () => {
     // console.log('login-----');
     // console.log(from);
 
-    const submitForm = (e) => {
-        e.preventDefault();
+    const submitForm = (evt: FormEvent<HTMLFormElement>) => {
+        evt.preventDefault();
         dispatch(loginRequest(values));
         // console.log('Redirect login');
         // console.log(from);
@@ -29,7 +31,7 @@ const Login = () => {
             <EmailInput
                 onChange={handleChange}
                 value={values.email}
-                type={"email"}
+                // type={"email"}
                 name={"email"}
                 placeholder="E-mail"
                 isIcon={false}

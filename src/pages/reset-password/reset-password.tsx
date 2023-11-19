@@ -6,6 +6,8 @@ import {PasswordInput, Input, Button} from "@ya.praktikum/react-developer-burger
 import {resetPasswordApi} from "../../utils/api";
 import useForm from "../../hooks/useForm";
 
+import { FC, FormEvent } from 'react';
+
 const ResetPassword = () => {
     const {values, handleChange} = useForm({password: "", token: ""});
     const navigate = useNavigate();
@@ -17,8 +19,8 @@ const ResetPassword = () => {
         }
     }, []);
 
-    const submitForm = (e) => {
-        e.preventDefault();
+    const submitForm = (evt: FormEvent<HTMLFormElement>) => {
+        evt.preventDefault();
         resetPasswordApi(values)
             .then((res) => {
                 // console.log(values);

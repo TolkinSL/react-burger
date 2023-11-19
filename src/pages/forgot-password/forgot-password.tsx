@@ -6,12 +6,14 @@ import {EmailInput, Button} from "@ya.praktikum/react-developer-burger-ui-compon
 import {restorePasswordApi} from "../../utils/api";
 import useForm from "../../hooks/useForm";
 
+import { FC, FormEvent } from 'react';
+
 const ForgotPassword = () => {
     const {values, handleChange} = useForm({email: ""});
     const navigate = useNavigate();
 
-    const submitForm = (e) => {
-        e.preventDefault();
+    const submitForm = (evt: FormEvent<HTMLFormElement>) => {
+        evt.preventDefault();
         restorePasswordApi(values)
             .then((res) => {
                 // console.log(res);
@@ -29,7 +31,7 @@ const ForgotPassword = () => {
             <EmailInput
                 onChange={handleChange}
                 value={values.email}
-                type={"email"}
+                // type={"email"}
                 name={"email"}
                 placeholder="Укажите e-mail"
                 isIcon={false}

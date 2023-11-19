@@ -1,6 +1,19 @@
-export const socketMiddleware = (wsActions) => {
+
+import { ActionCreatorWithPayload, ActionCreatorWithoutPayload, Middleware } from "@reduxjs/toolkit";
+
+type TwsAction = {
+    wsConnect: ActionCreatorWithPayload<string>;
+    onOpen: ActionCreatorWithoutPayload;
+    onClose: ActionCreatorWithoutPayload;
+    onError: ActionCreatorWithPayload<string>;
+    onMessage: ActionCreatorWithPayload<any>;
+    wsConnecting: ActionCreatorWithoutPayload;
+    wsDisconnect: ActionCreatorWithoutPayload;
+};
+
+export const socketMiddleware = (wsActions: TwsAction): Middleware => {
     return (store) => {
-        let socket = null;
+        let socket: WebSocket | null = null;
 
         return (next) => (action) => {
             const {dispatch} = store;

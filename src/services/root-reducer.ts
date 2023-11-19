@@ -1,5 +1,5 @@
 import {configureStore} from '@reduxjs/toolkit';
-import { socketMiddleware } from './middleware/socket-middleware.js';
+import { socketMiddleware } from './middleware/socket-middleware';
 
 import ingredientsSlice from './actions/ingredients-slice';
 import orderSlice from './actions/order-slice';
@@ -20,7 +20,6 @@ const dataMiddleware = socketMiddleware({
   onMessage: wsMessage,
 });
 
-
 const store = configureStore({
   reducer: {
     ingredients: ingredientsSlice,
@@ -34,5 +33,8 @@ const store = configureStore({
     return getDefaultMiddleware().concat(dataMiddleware);
   }
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 export default store;

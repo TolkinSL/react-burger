@@ -13,13 +13,14 @@ const OrderInfo = (props) => {
     const burgerIngredients = useSelector(getIngredientsItems);
     // console.log('Order-------');
     //console.log(ingredientsAll);
+
     const totalPrice = orderIngredients.reduce((acc, ritem) => {
         const temp = burgerIngredients.find(item => item._id === ritem);
-        return acc += temp.price;
+        return acc += temp?.price;
     }, 0);
     const imageIngredients = orderIngredients.map((ritem) => {
         const temp = burgerIngredients.find(item => item._id === ritem);
-        return temp.image_mobile;
+        return temp?.image_mobile;
     });
 
     // const imageIngredients = orderIngredients.map((ritem) => {
