@@ -4,10 +4,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {getCookie} from "../../utils/cookie";
 import style from "../../components/orders/orders.module.css";
 import OrderInfo from "../order-info/order-info";
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
 const Orders = () => {
-    const dispatch = useDispatch();
-    const orders = useSelector(store => store.wsData.orders);
+    const dispatch = useAppDispatch();
+    const orders = useAppSelector(store => store.wsData.orders);
     const token = getCookie("accessToken").split(' ')[1];
 
     useEffect(() => {

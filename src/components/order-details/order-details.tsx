@@ -3,9 +3,10 @@ import complete from '../../images/complete.png';
 import PropTypes from "prop-types";
 import {useSelector} from 'react-redux';
 import {getOrderNumber} from "../../utils/tools";
+import {useAppSelector} from "../../hooks/hooks";
 
 export default function OrderDetails() {
-  const orderNumber = useSelector(getOrderNumber);
+  const orderNumber = useAppSelector(getOrderNumber);
   return (
       <section className={`${styles.container} pt-30 pb-30 pl-25 pr-25`}>
         <p className={`${styles.number} text text_type_digits-large mb-8`}>{orderNumber}</p>

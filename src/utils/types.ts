@@ -34,3 +34,28 @@ export type TwsOrder = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type TUserData = {
+  [key: string]: string,
+}
+
+export type TIngredient = {
+  _id: string;
+  id4: string;
+  type: string;
+  name: string;
+  price: number;
+  fat: number;
+  calories: number;
+  carbohydrates: number;
+  proteins: number;
+  image: string;
+  image_mobile: string;
+  image_large: string;
+  __v: number;
+};
+
+export type TStateConstructor = {
+  items: TIngredient[],
+  bun: TIngredient,
+}
