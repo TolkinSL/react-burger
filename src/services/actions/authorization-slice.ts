@@ -1,10 +1,11 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {registerApi, loginApi, logoutApi, updateUserApi, getUserApi, refreshTokenApi} from "../../utils/api";
 import {setCookie, getCookie, deleteCookie} from "../../utils/cookie";
-import {TUserData} from "../../utils/types";
+import {TUserData, TInitialState} from "../../utils/types";
 
-const initialState = {
-    userData: null,
+
+const initialState: TInitialState = {
+    userData: {},
     isLoad: false,
     isLogin: false,
     error: false,

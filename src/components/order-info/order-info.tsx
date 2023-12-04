@@ -18,7 +18,7 @@ const OrderInfo: FC<TProps> = ({order, currentUser}) => {
     const location = useLocation();
     const orderIngredients = order.ingredients;
     const burgerIngredients: TIngredient[] = useAppSelector(getIngredientsItems);
-    console.log(burgerIngredients);
+    // console.log(burgerIngredients);
     // console.log('Order-------');
     //console.log(ingredientsAll);
 

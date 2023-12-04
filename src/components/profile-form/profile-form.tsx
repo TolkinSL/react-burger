@@ -4,13 +4,15 @@ import {Button, Input, EmailInput, PasswordInput} from "@ya.praktikum/react-deve
 import styles from "./profile-form.module.css";
 import useForm from "../../hooks/useForm";
 import {updateUserRequest} from "../../services/actions/authorization-slice";
-
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import {FormEvent} from "react";
+import {TUserData} from "../../utils/types";
 
 const ProfileForm = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    const {userData} = useSelector((store) => store.authorization);
+    const {userData} = useAppSelector((store) => store.authorization);
 
     const {values, handleChange, setValues} = useForm({
         name: userData.name,
@@ -18,8 +20,8 @@ const ProfileForm = () => {
         password: '',
     });
 
-    const submitForm = (e) => {
-        e.preventDefault();
+    const submitForm = (evt: FormEvent<HTMLFormElement>) => {
+        evt.preventDefault();
         dispatch(updateUserRequest(values));
         setValues({ ...values,
             password: '',
@@ -50,7 +52,7 @@ const ProfileForm = () => {
                 value={values.email}
                 name={"email"}
                 placeholder="Логин"
-                icon={"EditIcon"}
+                // icon={"EditIcon"}
                 extraClass="mt-6"
             />
             <PasswordInput

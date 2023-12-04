@@ -58,4 +58,12 @@ export type TIngredient = {
 export type TStateConstructor = {
   items: TIngredient[],
   bun: TIngredient,
-}
+};
+
+export type TInitialState = {
+  userData: {[key: string]: string},
+  isLoad: boolean,
+  isLogin: boolean,
+  error: boolean,
+  success: boolean,
+};
