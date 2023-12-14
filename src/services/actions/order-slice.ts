@@ -9,7 +9,7 @@ const initialState = {
 
 export const getOrder = createAsyncThunk(
     'orderNumber/fetch',
-    async (itemsId) => {
+    async (itemsId: string[]) => {
         const res = await getOrderApi(itemsId);
         return res.order.number;
     }
@@ -17,7 +17,7 @@ export const getOrder = createAsyncThunk(
 
 export const getCurrentOrder = createAsyncThunk(
     'currentOrder/fetch',
-    async (number) => {
+    async (number: string) => {
         const res = await getCurrentOrderApi(number);
         return res;
     }

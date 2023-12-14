@@ -1,4 +1,5 @@
 import {getCookie, setCookie} from "./cookie";
+import {TError, TFetchData} from "./types";
 
 const BASE_URL = 'https://norma.nomoreparties.space/api';
 
@@ -7,16 +8,16 @@ export const getIngredientsApi = async () => {
         .then(checkResponse);
 };
 
-export const getCurrentOrderApi = async (number) => {
+export const getCurrentOrderApi = async (number: string) => {
     return  await fetch(`${BASE_URL}/orders/${number}`)
         .then(checkResponse);
 }
 
-export const getOrderApi = (itemsId) => {
+export const getOrderApi = (itemsId: string[]) => {
     return fetchWithRefresh('POST', `${BASE_URL}/orders`, {ingredients: itemsId});
 };
 
-export const registerApi = (user) => {
+export const registerApi = (user: TFetchData) => {
     return fetch(`${BASE_URL}/auth/register`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -29,7 +30,7 @@ export const registerApi = (user) => {
         .then(checkResponse);
 };
 
-export const loginApi = (user) => {
+export const loginApi = (user: TFetchData) => {
     return fetch(`${BASE_URL}/auth/login`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -41,7 +42,7 @@ export const loginApi = (user) => {
         .then(checkResponse);
 };
 
-export const restorePasswordApi = (user) => {
+export const restorePasswordApi = (user: TFetchData) => {
     return fetch(`${BASE_URL}/password-reset`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -52,7 +53,7 @@ export const restorePasswordApi = (user) => {
         .then(checkResponse);
 };
 
-export const resetPasswordApi = (values) => {
+export const resetPasswordApi = (values: TFetchData) => {
     return fetch(`${BASE_URL}/password-reset/reset`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -64,7 +65,7 @@ export const resetPasswordApi = (values) => {
         .then(checkResponse);
 };
 
-export const logoutApi = (token) => {
+export const logoutApi = (token: string) => {
     return fetch(`${BASE_URL}/auth/logout`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -75,7 +76,7 @@ export const logoutApi = (token) => {
         .then(checkResponse);
 };
 
-export function updateUserApi(user) {
+export function updateUserApi(user: TFetchData) {
     return fetchWithRefresh('PATCH', `${BASE_URL}/auth/user`, {
         name: user.name,
         email: user.email,
@@ -101,9 +102,7 @@ export const refreshTokenApi = () => {
         .then(checkResponse);
 };
 
-
-
-export const fetchWithRefresh = async (method, URL, bodyJson) => {
+export const fetchWithRefresh = async (method: string, URL: string, bodyJson?: TFetchData) => {
     const config = {
         method: method,
         headers: {
@@ -116,7 +115,7 @@ export const fetchWithRefresh = async (method, URL, bodyJson) => {
         const res = await fetch(URL, config);
         return await checkResponse(res);
     } catch (err) {
-        if (err.message === "jwt expired" || "jwt malformed") {
+        if (err instanceof Error && (err.message === "jwt expired" || err.message === "jwt malformed")) {
             const refreshData = await refreshTokenApi();
             if (!refreshData.success) {
                 return Promise.reject(refreshData);
@@ -132,6 +131,6 @@ export const fetchWithRefresh = async (method, URL, bodyJson) => {
     }
 };
 
-const checkResponse = (res) => {
-    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+const checkResponse = (res: Response) => {
+    return res.ok ? res.json() : res.json().then((err: TError) => Promise.reject(err));
 };

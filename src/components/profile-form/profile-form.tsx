@@ -6,7 +6,7 @@ import useForm from "../../hooks/useForm";
 import {updateUserRequest} from "../../services/actions/authorization-slice";
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import {FormEvent} from "react";
-import {TUserData} from "../../utils/types";
+import {TFetchData} from "../../utils/types";
 
 const ProfileForm = () => {
     const dispatch = useAppDispatch();

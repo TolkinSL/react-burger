@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {registerApi, loginApi, logoutApi, updateUserApi, getUserApi, refreshTokenApi} from "../../utils/api";
 import {setCookie, getCookie, deleteCookie} from "../../utils/cookie";
-import {TUserData, TInitialState} from "../../utils/types";
+import {TFetchData, TInitialState} from "../../utils/types";
 
 
 const initialState: TInitialState = {
@@ -14,7 +14,7 @@ const initialState: TInitialState = {
 
 export const registerRequest = createAsyncThunk(
     "register/fetch",
-    async (user: TUserData) => {
+    async (user: TFetchData) => {
         const res = await registerApi(user);
         setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
         setCookie("refreshToken", res.refreshToken);
@@ -25,7 +25,7 @@ export const registerRequest = createAsyncThunk(
 
 export const loginRequest = createAsyncThunk(
     "login/fetch",
-    async (user: TUserData) => {
+    async (user: TFetchData) => {
         const res = await loginApi(user);
         setCookie("accessToken", res.accessToken);
         setCookie("refreshToken", res.refreshToken);
@@ -46,7 +46,7 @@ export const logoutRequest = createAsyncThunk(
 
 export const updateUserRequest = createAsyncThunk(
     'userUpdate/fetch',
-    async (user: TUserData) => {
+    async (user: TFetchData) => {
         const res = await updateUserApi(user);
         return res;
     }
