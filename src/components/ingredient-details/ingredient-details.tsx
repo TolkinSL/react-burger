@@ -2,11 +2,12 @@ import styles from "./ingredient-details.module.css";
 import {useSelector} from 'react-redux';
 import {getIngredientItem, getIngredientsItems} from "../../utils/tools";
 import {useParams} from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
 export default function IngredientDetails() {
 
     const {id} = useParams();
-    const ingredients = useSelector(getIngredientsItems);
+    const ingredients = useAppSelector((state)  => state.ingredients.items);
     const item = ingredients.find(item => item._id === id);
 
     if (id && item) {

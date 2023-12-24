@@ -2,21 +2,22 @@ import React from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 import { getCookie } from "../../utils/cookie";
-import PropTypes from "prop-types";
 import {getUserData} from "../../services/actions/authorization-slice";
 import {useNavigate} from "react-router";
-import {authIsLogin, authUserData} from "../../utils/tools";
+// import {authIsLogin, authUserData} from "../../utils/tools";
+import {TProtected} from "../../utils/types";
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
-const ProtectedRouteElement = ({ children }) => {
+const ProtectedRouteElement = ({children}: TProtected) => {
 
     const location = useLocation();
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
 
-    const user = useSelector(authUserData);
-    const isLogin = useSelector(authIsLogin);
-    const error = useSelector((state) => state.authorization.error);
+    const user = useAppSelector((state) => state.authorization.userData);
+    const isLogin = useAppSelector((state) => state.authorization.isLogin);
+    const error = useAppSelector((state) => state.authorization.error);
 
     React.useEffect(() => {
         dispatch(getUserData());
@@ -39,8 +40,3 @@ const ProtectedRouteElement = ({ children }) => {
 
 
 export default ProtectedRouteElement;
-
-ProtectedRouteElement.propTypes = {
-    anon: PropTypes.bool,
-    children: PropTypes.element.isRequired,
-};

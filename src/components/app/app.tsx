@@ -1,8 +1,8 @@
 import React from 'react';
 import Main from '../../pages/main/main';
-import {useDispatch, useSelector} from 'react-redux';
+//import {useDispatch, useSelector} from 'react-redux';
 import {getIngredients} from '../../services/actions/ingredients-slice';
-import {getIngredientsItems, getIngredientsStatus} from "../../utils/tools";
+// import {getIngredientsStatus} from "../../utils/tools";
 import {Routes, Route, useLocation, useNavigate} from "react-router";
 import Login from "../../pages/login/login";
 import Layout from "../layout/layout";
@@ -20,10 +20,11 @@ import {getUserData} from "../../services/actions/authorization-slice";
 import NotFound from "../../pages/not-found/not-found";
 import {CurrentOrder} from "../current-order/current-order";
 import FreeRouteElement from "../free-route-element/free-route-element";
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 
 function App() {
-    const dispatch = useDispatch();
-    const status = useSelector(getIngredientsStatus);
+    const dispatch = useAppDispatch();
+    const status = useAppSelector((state) => state.ingredients.status);
     const navigate = useNavigate();
     const location = useLocation();
     const background = location.state?.background;
@@ -56,7 +57,8 @@ function App() {
                     <Route path="feed" element={<Feed/>}/>
                     <Route path="feed/:id" element={<CurrentOrder/>}/>
                     <Route path="ingredients/:id" element={<IngredientDetails/>}/>
-                    <Route path='profile/orders/:id' element={<ProtectedRouteElement><CurrentOrder/></ProtectedRouteElement>}/>
+                    <Route path='profile/orders/:id'
+                           element={<ProtectedRouteElement><CurrentOrder/></ProtectedRouteElement>}/>
                     <Route path="*" element={<NotFound/>}/>
                 </Route>
             </Routes>

@@ -1,16 +1,17 @@
-import {useDispatch} from "react-redux";
+// import {useDispatch} from "react-redux";
 import styles from "./profile.module.css";
 import {Outlet, NavLink, Link} from "react-router-dom";
 import {logoutRequest} from "../../services/actions/authorization-slice";
 import {useNavigate} from "react-router";
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 
 export function Profile() {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     function logout() {
         dispatch(logoutRequest());
-        navigate("/", { replace: true });
+        navigate("/", {replace: true});
     }
 
     return (
@@ -19,22 +20,23 @@ export function Profile() {
                 <ul className={styles.items}>
                     <li className={styles.item}>
                         <NavLink to="/profile"
-                            className={({isActive, isPending}) =>
-                                isPending ? styles.link + " text text_type_main-medium text_color_inactive" : isActive ? styles.linkActive + " text text_type_main-medium" : styles.link + " text text_type_main-medium text_color_inactive"
-                            } end>
+                                 className={({isActive, isPending}) =>
+                                     isPending ? styles.link + " text text_type_main-medium text_color_inactive" : isActive ? styles.linkActive + " text text_type_main-medium" : styles.link + " text text_type_main-medium text_color_inactive"
+                                 } end>
                             Профиль
                         </NavLink>
                     </li>
                     <li className={styles.item}>
                         <NavLink to="/profile/orders"
-                            className={({isActive, isPending}) =>
-                                isPending ? styles.link + " text text_type_main-medium text_color_inactive" : isActive ? styles.linkActive + " text text_type_main-medium" : styles.link + " text text_type_main-medium text_color_inactive"
-                            } end>
+                                 className={({isActive, isPending}) =>
+                                     isPending ? styles.link + " text text_type_main-medium text_color_inactive" : isActive ? styles.linkActive + " text text_type_main-medium" : styles.link + " text text_type_main-medium text_color_inactive"
+                                 } end>
                             История заказов
                         </NavLink>
                     </li>
                     <li className={styles.item}>
-                        <Link to="/login" onClick={logout} className={styles.link + " text text_type_main-medium text_color_inactive"}>Выход</Link>
+                        <Link to="/login" onClick={logout}
+                              className={styles.link + " text text_type_main-medium text_color_inactive"}>Выход</Link>
                     </li>
                 </ul>
                 <p

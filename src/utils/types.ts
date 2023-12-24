@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import {ReactElement,} from "react";
 
 export const itemsType = PropTypes.shape({
     _id: PropTypes.string.isRequired,
@@ -73,6 +74,11 @@ export type TInitialState = {
     success: boolean,
 };
 
+export type TInitialIngredients = {
+    items: TIngredient[],
+    status: string,
+};
+
 export type TError = {
     response: {
         data: {
@@ -80,3 +86,12 @@ export type TError = {
         }
     }
 };
+
+export type TModal = {
+    closeModal: () => void;
+    children?: JSX.Element;
+};
+
+export type TProtected = {
+    children: JSX.Element,
+}

@@ -10,7 +10,7 @@ import {useLocation} from "react-router-dom";
 import {getCurrentOrder} from "../../services/actions/order-slice";
 import styles from "../burger-ingredients/burger-ingredients.module.css";
 
-export const CurrentOrder = ({isUserOrder}) => {
+export const CurrentOrder = () => {
     const location = useLocation();
     const dispatch = useDispatch();
     const ordersAll = useSelector(store => store.wsData.orders);

@@ -1,6 +1,6 @@
 import {connect, disconnect} from "../../services/actions/websocket-slice";
 import {useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
+// import {useDispatch, useSelector} from "react-redux";
 import {getCookie} from "../../utils/cookie";
 import style from "../../components/orders/orders.module.css";
 import OrderInfo from "../order-info/order-info";

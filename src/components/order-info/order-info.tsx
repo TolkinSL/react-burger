@@ -1,10 +1,10 @@
 import React from "react";
 import {FC} from "react";
-import {useSelector} from "react-redux";
+// import {useSelector} from "react-redux";
 import {CurrencyIcon, FormattedDate} from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './order-info.module.css';
 import {Link, useLocation} from "react-router-dom";
-import {getIngredientsItems} from "../../utils/tools";
+// import {getIngredientsItems} from "../../utils/tools";
 import ImageContainer from "../image-container/image-container";
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import {TIngredient, TwsOrder} from "../../utils/types";
@@ -17,7 +17,7 @@ type TProps = {
 const OrderInfo: FC<TProps> = ({order, currentUser}) => {
     const location = useLocation();
     const orderIngredients = order.ingredients;
-    const burgerIngredients: TIngredient[] = useAppSelector(getIngredientsItems);
+    const burgerIngredients: TIngredient[] = useAppSelector((state)  => state.ingredients.items);
     // console.log(burgerIngredients);
     // console.log('Order-------');
     //console.log(ingredientsAll);

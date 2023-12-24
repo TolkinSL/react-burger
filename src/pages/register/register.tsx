@@ -1,16 +1,17 @@
 import React from "react";
-import {useDispatch} from "react-redux";
+// import {useDispatch} from "react-redux";
 import {Link} from 'react-router-dom';
 import styles from "./register.module.css";
 import {Input, EmailInput, PasswordInput, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useNavigate} from "react-router";
 import {registerRequest} from "../../services/actions/authorization-slice";
 import useForm from "../../hooks/useForm";
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
 import { FC, FormEvent } from 'react';
 
 const Register = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const {values, handleChange} = useForm({name: "", email: "", password: ""});
     const navigate = useNavigate();
 

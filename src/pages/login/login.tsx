@@ -1,16 +1,17 @@
 import React from "react";
-import {useDispatch} from "react-redux";
+//import {useDispatch} from "react-redux";
 import {Link, Navigate} from 'react-router-dom';
 import {redirect, useLocation, useNavigate} from "react-router";
 import styles from "./login.module.css";
 import {EmailInput, PasswordInput, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {loginRequest} from "../../services/actions/authorization-slice";
 import useForm from "../../hooks/useForm";
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
-import { FC, FormEvent } from 'react';
+import {FormEvent } from 'react';
 
 const Login = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const location = useLocation();
     const navigate = useNavigate();
     const {values, handleChange} = useForm({email: "", password: ""});
