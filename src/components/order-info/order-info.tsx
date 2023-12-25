@@ -30,7 +30,7 @@ const OrderInfo: FC<TProps> = ({order, currentUser}) => {
     const imageIngredients = orderIngredients.map((ritem) => {
         const temp: TIngredient | undefined = burgerIngredients.find(item => item._id === ritem);
         return temp?.image_mobile;
-    });
+    }).filter(Boolean) as string[];
 
     // const imageIngredients = orderIngredients.map((ritem) => {
     //     const temp = burgerIngredients.find(item => item._id === ritem);

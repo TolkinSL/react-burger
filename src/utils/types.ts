@@ -95,3 +95,9 @@ export type TModal = {
 export type TProtected = {
     children: JSX.Element,
 }
+
+export type TIngredientList = {
+    openModal: () => void;
+    count: number;
+    item: TIngredient;
+};
