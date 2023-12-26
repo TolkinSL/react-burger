@@ -28,7 +28,7 @@ export type TwsOrders = {
 
 export type TwsOrder = {
     _id: string;
-    status: string | "pending" | "done";
+    status: string;
     name: string;
     number: number;
     ingredients: string[];
@@ -77,6 +77,12 @@ export type TInitialState = {
 export type TInitialIngredients = {
     items: TIngredient[],
     status: string,
+};
+
+export type TInitialOrder = {
+    orderNumber: number,
+    status: string,
+    currentOrder: Partial<TwsOrder>,
 };
 
 export type TError = {

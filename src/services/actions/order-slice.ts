@@ -1,10 +1,11 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {getCurrentOrderApi, getOrderApi} from '../../utils/api';
+import {TInitialOrder} from "../../utils/types";
 
-const initialState = {
+const initialState: TInitialOrder = {
     orderNumber: 0,
     status: '',
-    currentOrder: '',
+    currentOrder: {},
 };
 
 export const getOrder = createAsyncThunk(
@@ -43,7 +44,7 @@ const orderSlice = createSlice({
             })
             .addCase(getCurrentOrder.pending, (state) => {
                 state.status = 'load';
-                state.currentOrder = '';
+                state.currentOrder = {};
             })
             .addCase(getCurrentOrder.fulfilled, (state, actions) => {
                 state.status = 'complete';
@@ -51,7 +52,7 @@ const orderSlice = createSlice({
             })
             .addCase(getCurrentOrder.rejected, (state) => {
                 state.status = 'error';
-                state.currentOrder = '';
+                state.currentOrder = {};
             })
     },
 });

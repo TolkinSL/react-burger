@@ -5,30 +5,39 @@ import React, {useEffect} from "react";
 import {useParams} from "react-router-dom";
 import {connect, disconnect} from "../../services/actions/websocket-slice";
 import {getCookie} from "../../utils/cookie";
-import {getIngredientsItems} from "../../utils/tools";
+// import {getIngredientsItems} from "../../utils/tools";
 import {useLocation} from "react-router-dom";
 import {getCurrentOrder} from "../../services/actions/order-slice";
 import styles from "../burger-ingredients/burger-ingredients.module.css";
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
-export const CurrentOrder = () => {
+const CurrentOrder = () => {
     const location = useLocation();
-    const dispatch = useDispatch();
-    const ordersAll = useSelector(store => store.wsData.orders);
-    const order = useSelector((store) => store.order.currentOrder);
-    const burgerIngredients = useSelector(getIngredientsItems);
+    const dispatch = useAppDispatch();
+    // const ordersAll = useAppSelector(store => store.wsData.orders);
+    const order = useAppSelector((store) => store.order.currentOrder);
+    const burgerIngredients = useAppSelector((state)  => state.ingredients.items);
     const {id} = useParams();
 
+    console.log('Order-------');
+    console.log(order);
+    console.log('Burger-------');
+    console.log(burgerIngredients);
     //const isClearLoaction = location?.state;
     // console.log('Location-------');
     // console.log(location);
 
     useEffect(() => {
-        dispatch(getCurrentOrder(id));
+        if (id) {
+            dispatch(getCurrentOrder(id));
+        }
+        // dispatch(getCurrentOrder(id));
     }, []);
 
     const totalPrice = order.ingredients?.reduce((acc, ritem) => {
         const temp = burgerIngredients.find(item => item._id === ritem);
-        return acc += temp.price;
+
+        return acc += temp ? temp.price : 0;
     }, 0);
 
     const itemIngredients = order.ingredients?.map((ritem) => {
@@ -39,32 +48,42 @@ export const CurrentOrder = () => {
     // console.log('Item Ingredients--------');
     // console.log(itemIngredients);
 
-    const mergedIngredients = itemIngredients?.reduce((acc, ingredient) => {
-        const existingIngredient = acc.find(item => item._id === ingredient._id);
-        if (existingIngredient) {
-            existingIngredient.count += 1;
-        } else {
-            const newIngredient = {...ingredient, count: 1};
-            acc.push(newIngredient);
-        }
+    // const mergedIngredients = itemIngredients?.reduce((acc, ingredient) => {
+    //     const existingIngredient = acc.find(item => item._id === ingredient._id);
+    //     if (existingIngredient) {
+    //         existingIngredient.count += 1;
+    //     } else {
+    //         const newIngredient = {...ingredient, count: 1};
+    //         acc.push(newIngredient);
+    //     }
+    //
+    //     return acc;
+    // }, []);
 
-        return acc;
-    }, []);
+    const mergedIngredients = itemIngredients?.map((ingredient) => {
+        return {
+            ...ingredient,
+            count: itemIngredients?.filter((item) => item?._id === ingredient?._id).length,
+        };
+    }).filter((ingredient, index, self) => {
+        // Удаляем дубликаты по _id
+        return index === self.findIndex((item) => item._id === ingredient._id);
+    });
 
     // console.log('Merget Ingredients--------');
     // console.log(mergedIngredients);
 
     let orderStatus = '';
-    if (order.status == 'done') {
+    if (order.status === 'done') {
         orderStatus = 'Выполнен';
-    } else if (order.status == 'created') {
+    } else if (order.status === 'created') {
         orderStatus = 'Создан';
-    } else if (order.status == 'pending') {
+    } else if (order.status === 'pending') {
         orderStatus = 'Готовится';
     }
 
     return (
-        order && burgerIngredients ? (
+        Object.keys(order).length > 0 && burgerIngredients.length > 0 ? (
             <>
                 <div className={style.main}>
                     <p className={`text text_type_digits-default mb-10 ${style.number}`}> {`#${order.number}`} </p>
@@ -72,7 +91,7 @@ export const CurrentOrder = () => {
                     <p className={`text_type_main-small ${style.status}`}>{orderStatus}</p>
                     <p className="text text_type_main-medium mb-6">Состав: </p>
                     <ul className={style.main__list}>
-                        {mergedIngredients.map((item, index) => (
+                        {mergedIngredients?.map((item, index) => (
                                 <li className={style.main__listItem} key={index}>
                                     <div className={style.main__items}>
                                         <div className={style.main__ingredient}>
@@ -92,10 +111,10 @@ export const CurrentOrder = () => {
                     </ul>
                     <div className={style.main__date}>
                         <FormattedDate className="text text_type_main-default text_color_inactive mr-6"
-                                       date={new Date(order?.createdAt)}/>
+                                       date={order?.createdAt ? new Date(order.createdAt) : new Date()}/>
                         <div className={style.price_container}>
                             <p className="text text_type_digits-default mr-2">{totalPrice}</p>
-                            <CurrencyIcon/>
+                            <CurrencyIcon type="primary" />
                         </div>
                     </div>
                 </div>
@@ -104,3 +123,5 @@ export const CurrentOrder = () => {
     );
     // return <p>Test</p>
 };
+
+export default CurrentOrder;

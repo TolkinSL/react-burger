@@ -18,7 +18,7 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import {getUserData} from "../../services/actions/authorization-slice";
 import NotFound from "../../pages/not-found/not-found";
-import {CurrentOrder} from "../current-order/current-order";
+import CurrentOrder from "../current-order/current-order";
 import FreeRouteElement from "../free-route-element/free-route-element";
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 

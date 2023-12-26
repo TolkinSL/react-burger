@@ -1,6 +1,6 @@
 import styles from "./ingredient-details.module.css";
 import {useSelector} from 'react-redux';
-import {getIngredientItem, getIngredientsItems} from "../../utils/tools";
+// import {getIngredientItem, getIngredientsItems} from "../../utils/tools";
 import {useParams} from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
