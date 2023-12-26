@@ -5,14 +5,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import {addItem, removeItem, moveItem} from "../../services/actions/constructor-slice";
 import {useRef} from "react";
 import {useDrag, useDrop} from "react-dnd";
-import {getCartItems} from "../../utils/tools";
+// import {getCartItems} from "../../utils/tools";
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import {TConstrMains, TDrop} from "../../utils/types";
 
 function ConstructorMains({ingredient, index}: TConstrMains) {
   const dispatch = useAppDispatch();
   const ref = useRef(null);
-  const ingredients = useAppSelector(getCartItems);
+  const ingredients = useAppSelector((state) => state.cart.items);
 
   const removeItemId = (id4: string) => {
     dispatch(removeItem(id4));

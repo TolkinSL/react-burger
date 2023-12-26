@@ -5,8 +5,8 @@ import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from 'react-redux';
 import store from './services/root-reducer';
-// import {BrowserRouter} from "react-router-dom";
-import {HashRouter} from 'react-router-dom'; //for Githhub
+import {BrowserRouter} from "react-router-dom";
+// import {HashRouter} from 'react-router-dom'; //for Githhub
 import type {} from 'redux-thunk/extend-redux';
 
 const root = ReactDOM.createRoot(
@@ -14,12 +14,12 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <Provider store={store}>
-        <HashRouter>
-            <App/>
-        </HashRouter>
-        {/*<BrowserRouter>*/}
+        {/*<HashRouter>*/}
         {/*    <App/>*/}
-        {/*</BrowserRouter>*/}
+        {/*</HashRouter>*/}
+        <BrowserRouter>
+            <App/>
+        </BrowserRouter>
     </Provider>
 );
 

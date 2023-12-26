@@ -22,7 +22,7 @@ const Orders = () => {
       <>
           <section className={style.main__orders}>
               <ul className={style.order__list}>
-                  {orders?.map((order) => {
+                  {orders.map((order) => {
                       return (
                           <OrderInfo order={order} currentUser={true} key={order.number}/>
                       );

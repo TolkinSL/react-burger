@@ -1,4 +1,5 @@
 import React from 'react';
+import { FC, } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 import { getCookie } from "../../utils/cookie";
@@ -8,12 +9,11 @@ import {useNavigate} from "react-router";
 import {TProtected} from "../../utils/types";
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
-const ProtectedRouteElement = ({children}: TProtected) => {
+const ProtectedRouteElement: FC<TProtected> = ({children}) => {
 
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-
 
     const user = useAppSelector((state) => state.authorization.userData);
     const isLogin = useAppSelector((state) => state.authorization.isLogin);
@@ -21,7 +21,8 @@ const ProtectedRouteElement = ({children}: TProtected) => {
 
     React.useEffect(() => {
         dispatch(getUserData());
-    }, []);
+    }, [dispatch]);
+
 
     if (!user) {
         if (error) {

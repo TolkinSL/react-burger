@@ -3,21 +3,7 @@ import {TIngredient, TStateConstructor} from "../../utils/types";
 
 const initialState: TStateConstructor = {
     items: [],
-    bun: {
-        _id: '',
-        id4: '',
-        type: '',
-        name: '',
-        price: 0,
-        fat: 0,
-        calories: 0,
-        carbohydrates: 0,
-        proteins: 0,
-        image: '',
-        image_mobile: '',
-        image_large: '',
-        __v: 0,
-    },
+    bun: {},
 };
 
 const constructorSlice = createSlice({
@@ -34,21 +20,7 @@ const constructorSlice = createSlice({
             }
         },
         resetItem(state) {
-            state.bun = {
-                _id: '',
-                id4: '',
-                type: '',
-                name: '',
-                price: 0,
-                fat: 0,
-                calories: 0,
-                carbohydrates: 0,
-                proteins: 0,
-                image: '',
-                image_mobile: '',
-                image_large: '',
-                __v: 0,
-            };
+            state.bun = {};
             state.items = [];
         },
         removeItem(state, action) {

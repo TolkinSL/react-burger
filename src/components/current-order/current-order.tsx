@@ -9,29 +9,29 @@ import {getCookie} from "../../utils/cookie";
 import {useLocation} from "react-router-dom";
 import {getCurrentOrder} from "../../services/actions/order-slice";
 import styles from "../burger-ingredients/burger-ingredients.module.css";
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 
 const CurrentOrder = () => {
     const location = useLocation();
     const dispatch = useAppDispatch();
     // const ordersAll = useAppSelector(store => store.wsData.orders);
     const order = useAppSelector((store) => store.order.currentOrder);
-    const burgerIngredients = useAppSelector((state)  => state.ingredients.items);
+    const burgerIngredients = useAppSelector((state) => state.ingredients.items);
     const {id} = useParams();
 
-    console.log('Order-------');
-    console.log(order);
-    console.log('Burger-------');
-    console.log(burgerIngredients);
+    // console.log('Order-------');
+    // console.log(order);
+    // console.log('Burger-------');
+    // console.log(burgerIngredients);
     //const isClearLoaction = location?.state;
     // console.log('Location-------');
     // console.log(location);
 
     useEffect(() => {
-        if (id) {
-            dispatch(getCurrentOrder(id));
-        }
-        // dispatch(getCurrentOrder(id));
+        // if (id) {
+        //     dispatch(getCurrentOrder(id));
+        // }
+        dispatch(getCurrentOrder(id as string));
     }, []);
 
     const totalPrice = order.ingredients?.reduce((acc, ritem) => {
@@ -114,7 +114,7 @@ const CurrentOrder = () => {
                                        date={order?.createdAt ? new Date(order.createdAt) : new Date()}/>
                         <div className={style.price_container}>
                             <p className="text text_type_digits-default mr-2">{totalPrice}</p>
-                            <CurrencyIcon type="primary" />
+                            <CurrencyIcon type="primary"/>
                         </div>
                     </div>
                 </div>

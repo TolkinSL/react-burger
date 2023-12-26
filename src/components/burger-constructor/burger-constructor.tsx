@@ -10,37 +10,40 @@ import {getOrder} from '../../services/actions/order-slice';
 import {addItem, resetItem} from "../../services/actions/constructor-slice";
 import {useDrop} from "react-dnd";
 import {v4 as uuidv4} from 'uuid';
-import {getBun, getMains} from "../../utils/tools";
+// import {getBun, getMains} from "../../utils/tools";
 import ConstructorMains from "../constructor-mains/constructor-mains";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import {TIngredient} from "../../utils/types";
 
 export default function BurgerConstructor() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const bunLocked = useSelector(getBun);
+  const bunLocked = useAppSelector((state) => state.cart.bun);
   const [isModalOrder, setModalOrder] = React.useState(false);
-  const mains = useSelector(getMains);
-  const isLogin = useSelector((store) => store.authorization.isLogin)
+  const mains = useAppSelector((state) => state.cart.items);
+  const isLogin = useAppSelector((store) => store.authorization.isLogin)
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
-    drop(item) {
+    drop(item: TIngredient) {
       dispatch(addItem({...item, id4: uuidv4()}));
     },
   });
 
   const toLoginPage = () => {
-    navigate("/login", {from: location })
+    //navigate("/login", {from: location })
+    navigate("/login", { state: { from: location } });
   };
 
   const openModal = () => {
     if (Object.keys(bunLocked).length !== 0) {
       const cartItems = [];
       cartItems.push(bunLocked?._id);
-      mains.forEach((item) => cartItems.push(item._id));
+      mains.forEach((item: TIngredient) => cartItems.push(item._id));
       cartItems.push(bunLocked?._id);
-      dispatch(getOrder(cartItems));
+      dispatch(getOrder(cartItems as string[]));
       setModalOrder(true);
     }
   };
@@ -52,8 +55,11 @@ export default function BurgerConstructor() {
 
   const orderSum = () => {
     let sum = 0;
-    mains.forEach((item) => sum += item.price);
-    sum += bunLocked?.price * 2;
+    mains.forEach((item: TIngredient) => sum += item.price);
+    if (bunLocked && typeof bunLocked.price === 'number') {
+      sum += bunLocked.price * 2;
+    }
+
     return sum ? sum : 0;
   }
 
@@ -64,12 +70,12 @@ export default function BurgerConstructor() {
               type="top"
               isLocked={true}
               text={Object.keys(bunLocked).length ? bunLocked.name + ' (верх)' : 'Добавьте булку !'}
-              price={Object.keys(bunLocked).length ? bunLocked.price : ''}
-              thumbnail={Object.keys(bunLocked).length ? bunLocked.image : ''}
+              price={bunLocked ? bunLocked.price as number : 0}
+              thumbnail={bunLocked ? bunLocked.image as string : ''}
           />
         </div>
         <ul className={styles.ingredients}>
-          {mains.map((item, index) => {
+          {mains.map((item: TIngredient, index: number) => {
             // console.log('Constructor');
             // console.log(item);
             return (
@@ -82,8 +88,8 @@ export default function BurgerConstructor() {
               type="bottom"
               isLocked={true}
               text={Object.keys(bunLocked).length ? bunLocked.name + ' (низ)' : 'Добавьте булку !'}
-              price={Object.keys(bunLocked).length ? bunLocked.price : ''}
-              thumbnail={Object.keys(bunLocked).length ? bunLocked.image : ''}
+              price={bunLocked ? bunLocked.price as number : 0}
+              thumbnail={bunLocked ? bunLocked.image as string : ''}
           />
         </div>
         <div className={`${styles.price} mt-10 mr-4`}>

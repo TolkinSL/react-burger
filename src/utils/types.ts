@@ -63,7 +63,7 @@ export type TIngredient = {
 
 export type TStateConstructor = {
     items: TIngredient[],
-    bun: TIngredient,
+    bun: Partial<TIngredient>,
 };
 
 export type TInitialState = {
