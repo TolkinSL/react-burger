@@ -6,13 +6,15 @@ import {addItem, removeItem, moveItem} from "../../services/actions/constructor-
 import {useRef} from "react";
 import {useDrag, useDrop} from "react-dnd";
 import {getCartItems} from "../../utils/tools";
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import {TConstrMains, TDrop} from "../../utils/types";
 
-export default function ConstructorMains({ingredient, index}) {
-  const dispatch = useDispatch();
+function ConstructorMains({ingredient, index}: TConstrMains) {
+  const dispatch = useAppDispatch();
   const ref = useRef(null);
-  const ingredients = useSelector(getCartItems);
+  const ingredients = useAppSelector(getCartItems);
 
-  const removeItemId = (id4) => {
+  const removeItemId = (id4: string) => {
     dispatch(removeItem(id4));
   }
 
@@ -26,12 +28,14 @@ export default function ConstructorMains({ingredient, index}) {
 
   const [, drop] = useDrop({
     accept: "mains",
-    drop(item) {
+    drop(item: TDrop) {
       dropItem(item);
     },
   });
 
-  const dropItem = (item) => {
+  const dropItem = (item: TDrop) => {
+    // console.log('Drop')
+    // console.log(item)
     const dragIndex = item.index;
     const hoverIndex = index;
     if (dragIndex === hoverIndex) {
@@ -41,7 +45,7 @@ export default function ConstructorMains({ingredient, index}) {
     item.index = hoverIndex;
   };
 
-  const moveIngredient = (dragIndex, hoverIndex) => {
+  const moveIngredient = (dragIndex: number, hoverIndex: number) => {
     const dragIngredient = ingredients[dragIndex];
     dispatch(moveItem({ dragIndex, hoverIndex, dragIngredient }));
   };
@@ -59,3 +63,5 @@ export default function ConstructorMains({ingredient, index}) {
       </li>
   );
 }
+
+export default ConstructorMains;

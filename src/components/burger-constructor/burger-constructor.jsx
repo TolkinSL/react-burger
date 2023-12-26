@@ -70,6 +70,8 @@ export default function BurgerConstructor() {
         </div>
         <ul className={styles.ingredients}>
           {mains.map((item, index) => {
+            // console.log('Constructor');
+            // console.log(item);
             return (
                 <ConstructorMains ingredient={item} index={index} key={item.id4}/>
             )

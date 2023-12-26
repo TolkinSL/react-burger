@@ -107,3 +107,13 @@ export type TIngredientList = {
     count: number;
     item: TIngredient;
 };
+
+export type TConstrMains = {
+    ingredient: TIngredient,
+    index: number,
+};
+
+export type TDrop = {
+    index: number;
+    ingredient: TIngredient;
+};

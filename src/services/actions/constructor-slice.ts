@@ -26,7 +26,7 @@ const constructorSlice = createSlice({
     reducers: {
         addItem(state, action) {
             const cartItem: TIngredient = action.payload;
-            console.log(cartItem);
+            // console.log(cartItem);
             if (cartItem.type !== 'bun') {
                 state.items.push(cartItem);
             } else {
