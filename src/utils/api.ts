@@ -115,7 +115,7 @@ export const fetchWithRefresh = async (method: string, URL: string, bodyJson?: T
         const res = await fetch(URL, config);
         return await checkResponse(res);
     } catch (err) {
-        if (err instanceof Error && (err.message === "jwt expired" || err.message === "jwt malformed")) {
+        if (err instanceof Error && err.message === "jwt expired") {
             const refreshData = await refreshTokenApi();
             if (!refreshData.success) {
                 return Promise.reject(refreshData);

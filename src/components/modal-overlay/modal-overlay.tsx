@@ -1,5 +1,4 @@
 import styles from './modal-overlay.module.css';
-import PropTypes from 'prop-types';
 import {TModal} from "../../utils/types";
 
 function ModalOverlay({closeModal}: TModal) {

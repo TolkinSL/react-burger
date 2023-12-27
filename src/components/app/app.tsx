@@ -25,6 +25,7 @@ import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 function App() {
     const dispatch = useAppDispatch();
     const status = useAppSelector((state) => state.ingredients.status);
+    const statusUser = useAppSelector((state) => state.authorization.isLoad);
     const navigate = useNavigate();
     const location = useLocation();
     const background = location.state?.background;
@@ -46,10 +47,10 @@ function App() {
             <Routes location={background || location}>
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<Main/>}/>
-                    <Route path="login" element={<FreeRouteElement><Login/></FreeRouteElement>}/>
-                    <Route path="register" element={<FreeRouteElement><Register/></FreeRouteElement>}/>
-                    <Route path="forgot-password" element={<FreeRouteElement><ForgotPassword/></FreeRouteElement>}/>
-                    <Route path="reset-password" element={<FreeRouteElement><ResetPassword/></FreeRouteElement>}/>
+                    <Route path="login" element={<ProtectedRouteElement anonymous={true}><Login/></ProtectedRouteElement>}/>
+                    <Route path="register" element={<ProtectedRouteElement anonymous={true}><Register/></ProtectedRouteElement>}/>
+                    <Route path="forgot-password" element={<ProtectedRouteElement anonymous={true}><ForgotPassword/></ProtectedRouteElement>}/>
+                    <Route path="reset-password" element={<ProtectedRouteElement anonymous={true}><ResetPassword/></ProtectedRouteElement>}/>
                     <Route path="profile" element={<ProtectedRouteElement><Profile/></ProtectedRouteElement>}>
                         <Route index element={<ProfileForm/>}/>
                         <Route path="orders" element={<Orders/>}/>
@@ -62,6 +63,7 @@ function App() {
                     <Route path="*" element={<NotFound/>}/>
                 </Route>
             </Routes>
+            {background && console.log('background', background)}
             {background && (
                 <Routes>
                     <Route path='ingredients/:id'

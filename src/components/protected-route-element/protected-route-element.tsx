@@ -9,34 +9,30 @@ import {useNavigate} from "react-router";
 import {TProtected} from "../../utils/types";
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
-const ProtectedRouteElement: FC<TProtected> = ({children}) => {
+const ProtectedRouteElement: FC<TProtected> = ({children, anonymous = false}) => {
+
+    const isLoggedIn = useAppSelector((state) => state.authorization.isLogin);
 
     const location = useLocation();
-    const navigate = useNavigate();
-    const dispatch = useAppDispatch();
+    const from = location.state?.from || '/';
 
-    const user = useAppSelector((state) => state.authorization.userData);
-    const isLogin = useAppSelector((state) => state.authorization.isLogin);
-    const error = useAppSelector((state) => state.authorization.error);
+    console.log('isLoggedIn');
+    console.log(isLoggedIn);
 
-    React.useEffect(() => {
-        dispatch(getUserData());
-    }, [dispatch]);
-
-
-    if (!user) {
-        if (error) {
-            return <Navigate to="/login"/>;
-        } else {
-            return null;
-        }
-    } else {
-        if (isLogin) {
-            return children;
-        } else {
-            return <Navigate to="/login"/>;
-        }
+    // Если разрешен неавторизованный доступ, а пользователь авторизован...
+    if (anonymous && isLoggedIn) {
+        // ...то отправляем его на предыдущую страницу
+        return <Navigate to={ from } />;
     }
+
+    // Если требуется авторизация, а пользователь не авторизован...
+    if (!anonymous && !isLoggedIn) {
+        // ...то отправляем его на страницу логин
+        return <Navigate to="/login" state={{ from: location}}/>;
+    }
+
+    // Если все ок, то рендерим внутреннее содержимое
+    return children;
 };
 
 

@@ -1,6 +1,5 @@
 import styles from "./order-details.module.css";
 import complete from '../../images/complete.png';
-import PropTypes from "prop-types";
 // import {useSelector} from 'react-redux';
 // import {getOrderNumber} from "../../utils/tools";
 import {useAppSelector} from "../../hooks/hooks";
@@ -16,8 +15,4 @@ export default function OrderDetails() {
         <p className="text text_type_main-default text_color_inactive">Дождитесь готовности на орбитальной станции</p>
       </section>
   )
-}
-
-OrderDetails.propTypes = {
-  orderNumber: PropTypes.number,
 }
